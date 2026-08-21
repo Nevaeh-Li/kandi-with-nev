@@ -625,8 +625,154 @@
             padding: 20px;
         }
 
+        .bead-item.palette-selected {
+            border-color: var(--primary-color) !important;
+            background: #eaf3ff !important;
+            box-shadow: 0 0 0 2px rgba(74,144,226,0.18), 0 3px 8px rgba(74,144,226,0.12);
+            transform: translateY(-1px);
+        }
+        #recentColorsFloat {
+            position: fixed; left: 320px; top: 130px; width: 220px; max-width: min(260px, calc(100vw - 30px));
+            background: rgba(255,255,255,0.97); border: 2px dashed #cfcfcf; border-radius: 14px; padding: 10px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.10); z-index: 121; touch-action: none; user-select: none;
+        }
+        #recentColorsFloat.dragging { cursor: grabbing; }
+        #recentColorsFloatHeader { display:flex; align-items:center; justify-content:space-between; gap:8px; cursor:grab; margin-bottom:8px; font-size:0.78rem; font-weight:700; color:#666; }
+        #recentColors { display:flex; flex-wrap:wrap; gap:6px; align-items:center; min-height:28px; }
+        #recentCountToggleLabel { display:flex; align-items:center; gap:5px; font-size:0.68rem; font-weight:600; color:#888; cursor:pointer; }
+        #recentCountToggle { position:absolute; opacity:0; pointer-events:none; }
+        .recent-toggle-track { width:28px; height:16px; border-radius:10px; background:#d9d9d9; position:relative; display:inline-block; transition:.15s; }
+        .recent-toggle-track::after { content:""; width:12px; height:12px; border-radius:50%; background:#fff; position:absolute; top:2px; left:2px; box-shadow:0 1px 2px rgba(0,0,0,.18); transition:.15s; }
+        #recentCountToggle:checked + .recent-toggle-track { background:var(--primary-color); }
+        #recentCountToggle:checked + .recent-toggle-track::after { left:14px; }
+        #beadCounts { margin-top:8px; padding-top:8px; border-top:1px solid #eee; max-height:260px; overflow-y:auto; }
+        .bead-count-row { display:flex; align-items:center; gap:8px; padding:4px 2px; font-size:0.72rem; color:#555; }
+        .bead-count-preview { width:32px; height:32px; display:flex; align-items:center; justify-content:center; flex:0 0 32px; background:transparent !important; border:0 !important; outline:0 !important; box-shadow:none !important; }
+        .bead-count-preview canvas { width:32px; height:32px; display:block; background:transparent !important; border:0 !important; outline:0 !important; box-shadow:none !important; }
+        .bead-count-number { font-weight:800; min-width:18px; text-align:right; color:#333; }
+
+        #sidePlate {
+            position: fixed;
+            left: 24px;
+            top: 50%;
+            right: auto;
+            transform: none;
+            cursor: grab;
+            touch-action: none;
+            width: 130px;
+            max-height: 70vh;
+            background: rgba(255,255,255,0.97);
+            border: 2px dashed #cfcfcf;
+            border-radius: 14px;
+            padding: 12px 10px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 120;
+            transition: border-color 0.15s, background 0.15s;
+        }
+
+        #sidePlate.dragging {
+            cursor: grabbing;
+            user-select: none;
+        }
+
+        #sidePlate.drag-over {
+            border-color: var(--primary-color);
+            background: #eaf3ff;
+        }
+
+        #sidePlateLabel {
+            font-size: 0.72rem;
+            text-align: center;
+            color: #888;
+            line-height: 1.35;
+            margin-bottom: 10px;
+            white-space: pre-line;
+        }
+
+        #sidePlateItems {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            overflow-y: auto;
+            max-height: calc(70vh - 60px);
+        }
+
+        .tray-bead-item {
+            width: auto;
+            height: auto;
+            min-width: 0;
+            min-height: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border: 0;
+            cursor: grab;
+            user-select: none;
+            box-shadow: none;
+            background: transparent !important;
+            outline: none !important;
+            flex-shrink: 0;
+        }
+
+        .tray-bead-item:active {
+            cursor: grabbing;
+        }
+
+        .tray-bead-item.shape-round,
+        .tray-bead-item.shape-pony,
+        .tray-bead-item.shape-seed,
+        .tray-bead-item.shape-mini-pony,
+        .tray-bead-item.shape-circle-letter {
+            border-radius: 50%;
+        }
+
+        .tray-bead-item.shape-square-letter,
+        .tray-bead-item.shape-slim {
+            border-radius: 4px;
+        }
+
+
+        #sidePlateItems canvas {
+            display: block;
+            background: transparent !important;
+            border: 0 !important;
+            outline: 0 !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+        }
+
+        #sidePlateEmptyHint {
+            font-size: 0.68rem;
+            color: #bbb;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        #unsavedLoadModalOverlay {
+            position: fixed; inset: 0; display: none; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.45); z-index: 700;
+        }
+        #unsavedLoadModal {
+            width: 360px; max-width: 90vw; box-sizing: border-box; padding: 22px;
+            background: #fff; border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+        }
+        #unsavedLoadModal h3 { margin: 0 0 10px; font-size: 1.05rem; }
+        #unsavedLoadModal p { margin: 0 0 18px; color: #555; line-height: 1.5; white-space: pre-line; font-size: 0.9rem; }
+        #unsavedLoadModal .unsaved-actions { display:flex; gap:10px; }
+        #unsavedLoadModal .unsaved-actions .btn { flex:1; }
+        #unsavedContinueBtn { background:#ff7b9c; }
+
+
         canvas {
             border-radius: 20px;
+            touch-action: none;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             cursor: default;
             max-width: 100%;
@@ -832,6 +978,10 @@
             border-color: var(--primary-color);
         }
 
+        .slot-empty-clickable {
+            cursor: pointer;
+        }
+
         .slot-info {
             display: flex;
             flex-direction: column;
@@ -965,7 +1115,6 @@ Peace Love Unity Respect ❤ - Nev</p>
                         <span style="font-size: 0.85rem; font-weight: bold;" id="lblString">绳线颜色:</span>
                         <div style="display: flex; align-items: center; gap: 6px;">
                             <input type="color" id="stringColor" value="#cccccc">
-                            <input type="range" id="stringAlphaSlider" min="0" max="1" step="0.05" value="1" style="width: 50px;" title="绳线透明度">
                             <div class="toggle-container">
                                 <div class="toggle-option active" id="toggleStringOn">显示</div>
                                 <div class="toggle-option" id="toggleStringOff">隐藏</div>
@@ -992,19 +1141,7 @@ Peace Love Unity Respect ❤ - Nev</p>
                             <span id="beadAlphaVal" style="font-size:0.75rem; color:#666; width:30px; text-align:right;">100%</span>
                         </div>
                     </div>
-
-                    <div class="control-row" style="margin-top:8px;">
-                        <span style="font-size: 0.8rem;" id="lblLetter">字母:</span>
-                        <input type="text" id="letterInput" maxlength="1" value="A">
-                    </div>
-                    <div class="control-row">
-                        <span style="font-size: 0.8rem;" id="lblLetterBg">字母背景:</span>
-                        <input type="color" id="beadBgColor" value="#ffffff">
-                        <span style="font-size: 0.8rem;" id="lblTextColor">文字色:</span>
-                        <input type="color" id="textColor" value="#000000">
-                    </div>
-
-                    <div class="bead-grid" style="margin-top: 10px;">
+<div class="bead-grid" style="margin-top: 10px;">
                         <div class="bead-item draggable-bead" data-type="pony">
                             <svg width="24" height="24" viewBox="0 0 30 30"><rect id="prevPony" x="6" y="3" width="18" height="24" rx="5" fill="#ff4646"/></svg>
                             <span class="bead-name-default">默认</span>
@@ -1055,6 +1192,17 @@ Peace Love Unity Respect ❤ - Nev</p>
                             </svg>
                             <span class="bead-name-squaretxt">方字母</span>
                         </div>
+                    </div>
+
+                    <div class="control-row letter-only-control" id="letterRow" style="margin-top:10px; display:none;">
+                        <span style="font-size: 0.8rem;" id="lblLetter">字母:</span>
+                        <input type="text" id="letterInput" maxlength="1" value="A">
+                    </div>
+                    <div class="control-row letter-only-control" id="letterStyleRow" style="display:none;">
+                        <span style="font-size: 0.8rem;" id="lblLetterBg">字母背景:</span>
+                        <input type="color" id="beadBgColor" value="#ffffff">
+                        <span style="font-size: 0.8rem;" id="lblTextColor">文字色:</span>
+                        <input type="color" id="textColor" value="#000000">
                     </div>
                 </div>
 
@@ -1178,18 +1326,50 @@ Peace Love Unity Respect ❤ - Nev</p>
                 </div>
                 <div id="lblToast1">• Ctrl+Z 撤回上一步</div>
                 <div id="lblToast2">• 双击字母珠可修改内容</div>
+                <div id="lblToast3">• 按住 Ctrl 点选可多选珠子；Ctrl+C / Ctrl+V 可复制粘贴</div>
             </div>
         </div>
     </div>
 
     <div id="drag-ghost"></div>
 
+    <div id="sidePlate">
+        <div id="sidePlateLabel">小托盘&#10;可以将珠子暂时放在这里</div>
+        <div id="sidePlateItems"></div>
+    </div>
+
+    <div id="recentColorsFloat" aria-label="Recent Colors">
+        <div id="recentColorsFloatHeader">
+            <span id="lblRecentColors">最近颜色</span>
+            <label id="recentCountToggleLabel" title="显示每种珠子的数量">
+                <span id="lblRecentCountToggle">数量</span>
+                <input type="checkbox" id="recentCountToggle">
+                <span class="recent-toggle-track"></span>
+            </label>
+        </div>
+        <div id="recentColors"></div>
+        <div id="beadCounts" style="display:none;"></div>
+    </div>
+
+
+    <div id="unsavedLoadModalOverlay">
+        <div id="unsavedLoadModal">
+            <h3 id="unsavedLoadTitle">You haven't saved your design yet!</h3>
+            <p id="unsavedLoadMessage">You haven't saved your design yet!
+你还没有保存你的设计呢</p>
+            <div class="unsaved-actions">
+                <button class="btn btn-secondary" id="unsavedGoBackBtn">Go back to save</button>
+                <button class="btn" id="unsavedContinueBtn">Continue anyways</button>
+            </div>
+        </div>
+    </div>
+
     <div id="watermarkModalOverlay">
         <div id="watermarkModal">
-            <h3 id="watermarkTitle">水印设置</h3>
-            <p class="wm-sub" id="watermarkSubtitle">导出前设置图片水印</p>
+            <h3 id="wmTitle">水印设置</h3>
+            <p class="wm-sub" id="wmSub">导出前设置图片水印</p>
 
-            <div class="wm-section-label" id="watermarkPositionLabel">位置</div>
+            <div class="wm-section-label" id="wmPositionLabel">位置</div>
             <div class="wm-position-grid">
                 <button class="wm-pos-btn" data-pos="top-left" id="wmPosTopLeft">左上</button>
                 <button class="wm-pos-btn" data-pos="top-center" id="wmPosTopCenter">中上</button>
@@ -1199,13 +1379,13 @@ Peace Love Unity Respect ❤ - Nev</p>
                 <button class="wm-pos-btn" data-pos="bottom-right" id="wmPosBottomRight">右下</button>
             </div>
 
-            <div class="wm-section-label" id="watermarkColorLabel">颜色</div>
+            <div class="wm-section-label" id="wmColorLabel">颜色</div>
             <div class="wm-color-row">
-                <button class="wm-color-btn active" data-color="#1a1a1a" id="wmColorBlack">
-                    <span class="wm-color-swatch" style="background:#1a1a1a;"></span><span id="wmColorBlackText">黑色</span>
+                <button class="wm-color-btn active" data-color="#1a1a1a">
+                    <span class="wm-color-swatch" style="background:#1a1a1a;"></span><span id="wmColorBlackTxt">黑色</span>
                 </button>
-                <button class="wm-color-btn" data-color="#ffffff" id="wmColorWhite">
-                    <span class="wm-color-swatch" style="background:#ffffff;"></span><span id="wmColorWhiteText">白色</span>
+                <button class="wm-color-btn" data-color="#ffffff">
+                    <span class="wm-color-swatch" style="background:#ffffff;"></span><span id="wmColorWhiteTxt">白色</span>
                 </button>
             </div>
 
@@ -1218,8 +1398,8 @@ Peace Love Unity Respect ❤ - Nev</p>
 
     <div id="watermarkPreviewOverlay">
         <div id="watermarkPreviewModal">
-            <h3 id="watermarkPreviewTitle">下载预览</h3>
-            <p class="wm-sub" id="watermarkPreviewSubtitle">确认无误后点击下载</p>
+            <h3 id="wmPreviewTitle">下载预览</h3>
+            <p class="wm-sub" id="wmPreviewSub">确认无误后点击下载</p>
             <div id="watermarkPreviewImgWrap">
                 <img id="watermarkPreviewImg" alt="预览图" />
             </div>
@@ -1240,6 +1420,7 @@ Peace Love Unity Respect ❤ - Nev</p>
         let circle = { x: canvas.width / 2, y: canvas.height / 2, radius: 216 };
         let beadsOnString = [];
         let selectedBeadIds = new Set(); 
+        let sidePlateBeads = [];
         let centerImage = null;
         let customBgImage = null;
         
@@ -1248,6 +1429,13 @@ Peace Love Unity Respect ❤ - Nev</p>
         let showGuideLines = true;
         let showStringLine = true;
         let currentLang = 'ZH'; // 默认中文
+        let hasUnsavedChanges = false;
+
+        function confirmDiscardUnsaved() {
+            if (!hasUnsavedChanges) return true;
+            const t = i18n[currentLang];
+            return confirm(t.unsavedWarning);
+        }
 
         let selectionBox = null; 
         let historyStack = [];
@@ -1273,6 +1461,7 @@ Peace Love Unity Respect ❤ - Nev</p>
                 braceletSize: "手链大小:",
                 beadLib: "珠子库",
                 colorAlpha: "颜色 & 透明度:",
+                recentColors: "最近颜色:",
                 letter: "字母:",
                 letterBg: "字母背景:",
                 textColor: "文字色:",
@@ -1301,45 +1490,49 @@ Peace Love Unity Respect ❤ - Nev</p>
                 uploadCharm: "上传新挂件",
                 exportImg: "导出图片",
                 clearTitle: "清空设计",
-                saveDesign: "保存设计",
+                saveDesign: "存档",
                 addSlot: "+ 新增存档",
                 toastHeader: "💡 操作提示",
                 toast1: "• Ctrl+Z 撤回上一步",
                 toast2: "• 双击字母珠可修改内容",
+                toast3: "• 按住 Ctrl 点选可多选珠子；Ctrl+C / Ctrl+V 可复制粘贴",
                 uploadText: "点击此处上传图片",
-                rotateText: ["拖拽", "此侧", "旋转"],
+                rotateText: ["拖拽", "此侧", "旋转", "手链"],
                 cover: "覆盖",
                 save: "保存",
-                load: "读取",
                 emptySlot: "空白存档",
-                defaultSlotName: "存档槽位 ",
+                defaultSlotName: "存档",
                 confirmClear: "确认清空设计？",
+                unsavedWarning: "当前设计尚未保存，继续操作将丢失未保存的更改，确定要继续吗？",
+                unsavedLoadTitle: "你还没有保存你的设计呢",
+                unsavedGoBack: "回去存档",
+                unsavedContinue: "不管了继续",
                 inputPrompt: "输入字母/字符 (单字):",
-                watermarkTitle: "水印设置",
-                watermarkSubtitle: "导出前设置图片水印",
-                watermarkPosition: "位置",
-                watermarkTopLeft: "左上",
-                watermarkTopCenter: "中上",
-                watermarkTopRight: "右上",
-                watermarkBottomLeft: "左下",
-                watermarkBottomCenter: "中下",
-                watermarkBottomRight: "右下",
-                watermarkColor: "颜色",
-                watermarkBlack: "黑色",
-                watermarkWhite: "白色",
-                watermarkCancel: "取消",
-                watermarkPreview: "预览",
-                watermarkPreviewTitle: "下载预览",
-                watermarkPreviewSubtitle: "确认无误后点击下载",
-                watermarkPreviewAlt: "预览图",
-                watermarkBack: "返回",
-                watermarkDownload: "下载",
                 menuCopy: "📋 复制",
-                menuDelete: "🗑️ 删除"
+                menuDelete: "🗑️ 删除",
+                sidePlateLabel: "小托盘\n可以将珠子暂时放在这里",
+                wmTitle: "水印设置",
+                wmSub: "导出前设置图片水印",
+                wmPosition: "位置",
+                wmPosTopLeft: "左上",
+                wmPosTopCenter: "中上",
+                wmPosTopRight: "右上",
+                wmPosBottomLeft: "左下",
+                wmPosBottomCenter: "中下",
+                wmPosBottomRight: "右下",
+                wmColor: "颜色",
+                wmColorBlack: "黑色",
+                wmColorWhite: "白色",
+                wmCancel: "取消",
+                wmPreview: "预览",
+                wmPreviewTitle: "下载预览",
+                wmPreviewSub: "确认无误后点击下载",
+                wmBack: "返回",
+                wmDownload: "下载"
             },
             ENG: {
                 mainTitle: "KANDI WITH NEV",
-                subTitleHtml: `FIND ME ON: <a href="https://www.instagram.com/nevaeh.li/" target="_blank" rel="noopener noreferrer" class="header-link">Instagram</a> | <a href="https://ko-fi.com/nevtheotter" target="_blank" rel="noopener noreferrer" class="header-link">Ko-fi</a> | <a href="https://www.nevaehli.com" target="_blank" rel="noopener noreferrer" class="header-link">Portfolio</a>`,
+                subTitleHtml: `FIND ME ON: <a href="https://www.instagram.com/nevtheotter/" target="_blank" rel="noopener noreferrer" class="header-link">Instagram</a> | <a href="https://ko-fi.com/nevtheotter" target="_blank" rel="noopener noreferrer" class="header-link">Ko-fi</a> | <a href="https://www.nevaehli.com" target="_blank" rel="noopener noreferrer" class="header-link">Portfolio</a>`,
                 welcomeDesc: `Welcome to Nev's Kandi Maker!\nThis is a non-profit website made for the Kandi community to create kandi designs online. This site is run independently by Nev. As of now, the site has everything fundamental for designing your own kandi, but more features may be added in the future.\nIf you'd like to support me or provide feedback, you can find me through the header links :) Note that this site is for personal use only.\nHave fun!\nPeace Love Unity Respect ❤ - Nev`,
                 canvasBg: "Canvas Background:",
                 guide: "Line Assist:",
@@ -1351,6 +1544,7 @@ Peace Love Unity Respect ❤ - Nev</p>
                 braceletSize: "Bracelet Size:",
                 beadLib: "Beads Inventory",
                 colorAlpha: "Color & Alpha:",
+                recentColors: "Recent Colors:",
                 letter: "Letter:",
                 letterBg: "Letter BG:",
                 textColor: "Text Color:",
@@ -1384,36 +1578,40 @@ Peace Love Unity Respect ❤ - Nev</p>
                 toastHeader: "💡 Quick Tips",
                 toast1: "• Ctrl+Z to Undo",
                 toast2: "• Double-click letters to edit",
+                toast3: "• Ctrl+Click to multi-select; Ctrl+C / Ctrl+V to copy & paste",
                 uploadText: "Click here to upload image",
-                rotateText: ["Drag", "Here To", "Rotate"],
+                rotateText: ["Drag", "here", "to", "rotate", "bracelet"],
                 cover: "Overwrite",
                 save: "Save",
-                load: "Load",
                 emptySlot: "Empty Save",
                 defaultSlotName: "Design ",
                 confirmClear: "Clear all?",
+                unsavedWarning: "Your current design hasn't been saved yet. Continuing will discard unsaved changes — are you sure?",
+                unsavedLoadTitle: "You haven't saved your design yet!",
+                unsavedGoBack: "Go back to save",
+                unsavedContinue: "Continue anyways",
                 inputPrompt: "Enter letter/character (1 char):",
-                watermarkTitle: "Watermark Settings",
-                watermarkSubtitle: "Set an image watermark before exporting",
-                watermarkPosition: "Position",
-                watermarkTopLeft: "Top Left",
-                watermarkTopCenter: "Top Center",
-                watermarkTopRight: "Top Right",
-                watermarkBottomLeft: "Bottom Left",
-                watermarkBottomCenter: "Bottom Center",
-                watermarkBottomRight: "Bottom Right",
-                watermarkColor: "Color",
-                watermarkBlack: "Black",
-                watermarkWhite: "White",
-                watermarkCancel: "Cancel",
-                watermarkPreview: "Preview",
-                watermarkPreviewTitle: "Download Preview",
-                watermarkPreviewSubtitle: "Review the image, then click Download",
-                watermarkPreviewAlt: "Preview image",
-                watermarkBack: "Back",
-                watermarkDownload: "Download",
                 menuCopy: "📋 Duplicate",
-                menuDelete: "🗑️ Delete"
+                menuDelete: "🗑️ Delete",
+                sidePlateLabel: "Side Plate\nDrop beads here to use them later",
+                wmTitle: "Watermark Settings",
+                wmSub: "Set your image watermark before exporting",
+                wmPosition: "Position",
+                wmPosTopLeft: "Top Left",
+                wmPosTopCenter: "Top Center",
+                wmPosTopRight: "Top Right",
+                wmPosBottomLeft: "Bottom Left",
+                wmPosBottomCenter: "Bottom Center",
+                wmPosBottomRight: "Bottom Right",
+                wmColor: "Color",
+                wmColorBlack: "Black",
+                wmColorWhite: "White",
+                wmCancel: "Cancel",
+                wmPreview: "Preview",
+                wmPreviewTitle: "Download Preview",
+                wmPreviewSub: "Click download once you're happy with it",
+                wmBack: "Back",
+                wmDownload: "Download"
             }
         };
 
@@ -1442,7 +1640,10 @@ Peace Love Unity Respect ❤ - Nev</p>
             document.getElementById('lblBraceletSize').textContent = t.braceletSize;
             document.getElementById('lblBeadLib').textContent = t.beadLib;
             document.getElementById('lblColorAlpha').textContent = t.colorAlpha;
+            document.getElementById('lblRecentColors').textContent = t.recentColors;
+            document.getElementById('lblRecentCountToggle').textContent = currentLang === 'ZH' ? '数量' : 'Counts';
             document.getElementById('lblLetter').textContent = t.letter;
+            renderBeadCounts();
             document.getElementById('lblLetterBg').textContent = t.letterBg;
             document.getElementById('lblTextColor').textContent = t.textColor;
 
@@ -1475,30 +1676,31 @@ Peace Love Unity Respect ❤ - Nev</p>
             document.getElementById('lblToastHeader').textContent = t.toastHeader;
             document.getElementById('lblToast1').textContent = t.toast1;
             document.getElementById('lblToast2').textContent = t.toast2;
+            document.getElementById('lblToast3').textContent = t.toast3;
 
             document.getElementById('txtMenuCopy').textContent = t.menuCopy;
             document.getElementById('txtMenuDelete').textContent = t.menuDelete;
 
-            // 水印设置与预览弹窗也随语言切换
-            document.getElementById('watermarkTitle').textContent = t.watermarkTitle;
-            document.getElementById('watermarkSubtitle').textContent = t.watermarkSubtitle;
-            document.getElementById('watermarkPositionLabel').textContent = t.watermarkPosition;
-            document.getElementById('wmPosTopLeft').textContent = t.watermarkTopLeft;
-            document.getElementById('wmPosTopCenter').textContent = t.watermarkTopCenter;
-            document.getElementById('wmPosTopRight').textContent = t.watermarkTopRight;
-            document.getElementById('wmPosBottomLeft').textContent = t.watermarkBottomLeft;
-            document.getElementById('wmPosBottomCenter').textContent = t.watermarkBottomCenter;
-            document.getElementById('wmPosBottomRight').textContent = t.watermarkBottomRight;
-            document.getElementById('watermarkColorLabel').textContent = t.watermarkColor;
-            document.getElementById('wmColorBlackText').textContent = t.watermarkBlack;
-            document.getElementById('wmColorWhiteText').textContent = t.watermarkWhite;
-            document.getElementById('watermarkCancelBtn').textContent = t.watermarkCancel;
-            document.getElementById('watermarkConfirmBtn').textContent = t.watermarkPreview;
-            document.getElementById('watermarkPreviewTitle').textContent = t.watermarkPreviewTitle;
-            document.getElementById('watermarkPreviewSubtitle').textContent = t.watermarkPreviewSubtitle;
-            document.getElementById('watermarkPreviewImg').alt = t.watermarkPreviewAlt;
-            document.getElementById('watermarkPreviewBackBtn').textContent = t.watermarkBack;
-            document.getElementById('watermarkPreviewDownloadBtn').textContent = t.watermarkDownload;
+            document.getElementById('wmTitle').textContent = t.wmTitle;
+            document.getElementById('wmSub').textContent = t.wmSub;
+            document.getElementById('wmPositionLabel').textContent = t.wmPosition;
+            document.getElementById('wmPosTopLeft').textContent = t.wmPosTopLeft;
+            document.getElementById('wmPosTopCenter').textContent = t.wmPosTopCenter;
+            document.getElementById('wmPosTopRight').textContent = t.wmPosTopRight;
+            document.getElementById('wmPosBottomLeft').textContent = t.wmPosBottomLeft;
+            document.getElementById('wmPosBottomCenter').textContent = t.wmPosBottomCenter;
+            document.getElementById('wmPosBottomRight').textContent = t.wmPosBottomRight;
+            document.getElementById('wmColorLabel').textContent = t.wmColor;
+            document.getElementById('wmColorBlackTxt').textContent = t.wmColorBlack;
+            document.getElementById('wmColorWhiteTxt').textContent = t.wmColorWhite;
+            document.getElementById('watermarkCancelBtn').textContent = t.wmCancel;
+            document.getElementById('watermarkConfirmBtn').textContent = t.wmPreview;
+            document.getElementById('wmPreviewTitle').textContent = t.wmPreviewTitle;
+            document.getElementById('wmPreviewSub').textContent = t.wmPreviewSub;
+            document.getElementById('watermarkPreviewBackBtn').textContent = t.wmBack;
+            document.getElementById('watermarkPreviewDownloadBtn').textContent = t.wmDownload;
+
+            document.getElementById('sidePlateLabel').textContent = t.sidePlateLabel;
 
             updateSelectionUI();
             renderSlotsUI();
@@ -1519,7 +1721,6 @@ Peace Love Unity Respect ❤ - Nev</p>
         const charmOffsetVal = document.getElementById('charmOffsetVal');
 
         const stringColorInput = document.getElementById('stringColor');
-        const stringAlphaSlider = document.getElementById('stringAlphaSlider');
         const toggleStringOn = document.getElementById('toggleStringOn');
         const toggleStringOff = document.getElementById('toggleStringOff');
 
@@ -1536,10 +1737,46 @@ Peace Love Unity Respect ❤ - Nev</p>
         let slotsData = JSON.parse(localStorage.getItem('kandi_slots_data') || 'null');
         if (!slotsData) {
             slotsData = [
-                { id: 1, nameSlotZH: '存档槽位 1', nameSlotENG: 'Design 1', data: null, updatedAt: null },
-                { id: 2, nameSlotZH: '存档槽位 2', nameSlotENG: 'Design 2', data: null, updatedAt: null },
-                { id: 3, nameSlotZH: '存档槽位 3', nameSlotENG: 'Design 3', data: null, updatedAt: null }
+                { id: 1, nameSlotZH: '存档1', nameSlotENG: 'Design 1', data: null, updatedAt: null },
+                { id: 2, nameSlotZH: '存档2', nameSlotENG: 'Design 2', data: null, updatedAt: null },
+                { id: 3, nameSlotZH: '存档3', nameSlotENG: 'Design 3', data: null, updatedAt: null }
             ];
+            localStorage.setItem('kandi_slots_data', JSON.stringify(slotsData));
+        } else {
+            // 统一旧版本名称；前三个默认槽位始终显示为“存档1/2/3”。
+            slotsData.forEach((slot, i) => {
+                if (!slot) return;
+                if (i < 3) {
+                    slot.nameSlotZH = `存档${i + 1}`;
+                    // 旧版本曾把默认中文存档名写进 customName，导致中文界面显示为 Design 1/2/3。
+                    // 只有这些旧的默认名称才清除；用户自己重命名的 customName 保留。
+                    if (
+                        slot.customName === `Design ${i + 1}` ||
+                        slot.customName === `存档槽位 ${i + 1}` ||
+                        slot.customName === `存档${i + 1}`
+                    ) {
+                        delete slot.customName;
+                    }
+                } else if (/^存档槽位\s*\d+$/.test(slot.nameSlotZH || '')) {
+                    slot.nameSlotZH = `存档${i + 1}`;
+                }
+            });
+            while (slotsData.length < 3) {
+                const n = slotsData.length + 1;
+                slotsData.push({ id: n, nameSlotZH: `存档${n}`, nameSlotENG: `Design ${n}`, data: null, updatedAt: null });
+            }
+            // 再做一次兜底迁移，确保旧 localStorage 中的 Design 1/2/3 不会覆盖中文默认名称。
+            slotsData.slice(0, 3).forEach((slot, i) => {
+                if (!slot) return;
+                if (
+                    slot.customName === `Design ${i + 1}` ||
+                    slot.customName === `存档槽位 ${i + 1}` ||
+                    slot.customName === `存档${i + 1}`
+                ) {
+                    delete slot.customName;
+                }
+                slot.nameSlotZH = `存档${i + 1}`;
+            });
             localStorage.setItem('kandi_slots_data', JSON.stringify(slotsData));
         }
 
@@ -1559,13 +1796,33 @@ Peace Love Unity Respect ❤ - Nev</p>
             const nextId = slotsData.length + 1;
             slotsData.push({
                 id: Date.now(),
-                nameSlotZH: `存档槽位 ${nextId}`,
+                nameSlotZH: `存档${nextId}`,
                 nameSlotENG: `Design ${nextId}`,
                 data: null,
                 updatedAt: null
             });
             localStorage.setItem('kandi_slots_data', JSON.stringify(slotsData));
             renderSlotsUI();
+        });
+
+        const unsavedLoadModalOverlay = document.getElementById('unsavedLoadModalOverlay');
+        const unsavedGoBackBtn = document.getElementById('unsavedGoBackBtn');
+        const unsavedContinueBtn = document.getElementById('unsavedContinueBtn');
+        let unsavedLoadResolve = null;
+
+        function confirmBeforeLoadingSavedDesign() {
+            if (!hasUnsavedChanges) return Promise.resolve(true);
+            unsavedLoadModalOverlay.style.display = 'flex';
+            return new Promise(resolve => { unsavedLoadResolve = resolve; });
+        }
+        unsavedGoBackBtn.addEventListener('click', () => {
+            unsavedLoadModalOverlay.style.display = 'none';
+            if (unsavedLoadResolve) { unsavedLoadResolve(false); unsavedLoadResolve = null; }
+            saveDropdown.classList.add('open');
+        });
+        unsavedContinueBtn.addEventListener('click', () => {
+            unsavedLoadModalOverlay.style.display = 'none';
+            if (unsavedLoadResolve) { unsavedLoadResolve(true); unsavedLoadResolve = null; }
         });
 
         function renderSlotsUI() {
@@ -1578,7 +1835,7 @@ Peace Love Unity Respect ❤ - Nev</p>
                 
                 const timeText = slot.updatedAt ? new Date(slot.updatedAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : t.emptySlot;
                 
-                const slotDisplayName = slot.customName || (currentLang === 'ENG' ? (slot.nameSlotENG || `Design ${slot.id}`) : (slot.nameSlotZH || `存档槽位 ${slot.id}`));
+                const slotDisplayName = slot.customName || (currentLang === 'ENG' ? (slot.nameSlotENG || `Design ${slot.id}`) : (slot.nameSlotZH || `存档${slot.id}`));
 
                 itemEl.innerHTML = `
                     <div class="slot-info" title="双击重命名">
@@ -1587,7 +1844,6 @@ Peace Love Unity Respect ❤ - Nev</p>
                     </div>
                     <div class="slot-actions">
                         <button class="btn-mini load-save-btn" style="background:${slot.data ? '#52c41a' : '#52c41a'};">${slot.data ? t.cover : t.save}</button>
-                        ${slot.data ? `<button class="btn-mini load-btn" style="background:var(--primary-color);">${t.load}</button>` : ''}
                         <button class="btn-mini btn-delete-slot" title="删除存档">✕</button>
                     </div>
                 `;
@@ -1622,28 +1878,71 @@ Peace Love Unity Respect ❤ - Nev</p>
                     e.stopPropagation();
                     slot.data = serializeCurrentDesign();
                     slot.updatedAt = new Date().toISOString();
+                    hasUnsavedChanges = false;
                     localStorage.setItem('kandi_slots_data', JSON.stringify(slotsData));
                     renderSlotsUI();
                 });
 
-                // 读取按钮
-                const loadBtn = itemEl.querySelector('.load-btn');
-                if (loadBtn) {
-                    loadBtn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        if (slot.data) {
-                            saveState();
-                            loadDesignData(slot.data);
-                            saveDropdown.classList.remove('open');
+                // 点击已有存档即可直接切换到该设计，不再需要单独的“读取”按钮。
+                if (slot.data) {
+                    let slotClickTimer = null;
+                    const openSavedSlot = async () => {
+                        const ok = await confirmBeforeLoadingSavedDesign();
+                        if (!ok) return;
+                        saveState();
+                        loadDesignData(slot.data);
+                        hasUnsavedChanges = false;
+                        saveDropdown.classList.remove('open');
+                    };
+                    itemEl.addEventListener('click', (e) => {
+                        if (e.target.closest('button') || e.target.closest('input')) return;
+                        const slotInfoTarget = e.target.closest('.slot-info');
+                        if (slotInfoTarget) {
+                            // 给双击重命名留出极短的判定时间，单击仍会自动加载。
+                            clearTimeout(slotClickTimer);
+                            slotClickTimer = setTimeout(() => openSavedSlot(), 220);
+                            return;
                         }
+                        openSavedSlot();
+                    });
+                    itemEl.querySelector('.slot-info').addEventListener('dblclick', () => {
+                        clearTimeout(slotClickTimer);
+                    });
+                }
+
+                // 点击空白存档：如果当前设计已经保存，直接开启全新空白设计；
+                // 如果当前仍有未保存修改，则先询问用户。
+                if (!slot.data) {
+                    itemEl.classList.add('slot-empty-clickable');
+                    itemEl.addEventListener('click', () => {
+                        if (hasUnsavedChanges && !confirmDiscardUnsaved()) return;
+                        saveState();
+                        beadsOnString = [];
+                        sidePlateBeads = [];
+                        selectedBeadIds.clear();
+                        centerImage = null;
+                        customBgImage = null;
+                        bgToggleBtn.innerHTML = uploadIconSvg;
+                        bgToggleBtn.classList.remove('danger');
+                        selectionBox = null;
+                        if (typeof sidePlatePosition !== 'undefined') {
+                            sidePlatePosition = null;
+                            positionSidePlateDefault();
+                        }
+                        renderSidePlate();
+                        updateSelectionUI();
+                        drawScene();
+                        autoSaveLastDesign();
+                        hasUnsavedChanges = false;
+                        saveDropdown.classList.remove('open');
                     });
                 }
 
                 // 删除存档按钮
                 itemEl.querySelector('.btn-delete-slot').addEventListener('click', (e) => {
                     e.stopPropagation();
-                    slot.data = null;
-                    slot.updatedAt = null;
+                    const removeIndex = slotsData.findIndex(s => s.id === slot.id);
+                    if (removeIndex !== -1) slotsData.splice(removeIndex, 1);
                     localStorage.setItem('kandi_slots_data', JSON.stringify(slotsData));
                     renderSlotsUI();
                 });
@@ -1657,10 +1956,18 @@ Peace Love Unity Respect ❤ - Nev</p>
                 radius: circle.radius,
                 canvasBgColor: canvasBgColorInput.value,
                 stringColor: stringColorInput.value,
-                stringAlpha: stringAlphaSlider.value,
                 showStringLine: showStringLine,
                 centerImageSrc: centerImage ? centerImage.src : null,
                 customBgImageSrc: customBgImage ? customBgImage.src : null,
+                sidePlatePosition: sidePlatePosition ? { ...sidePlatePosition } : null,
+                sidePlateBeads: sidePlateBeads.map(b => {
+                    const copy = { ...b };
+                    if (copy.charmImg) {
+                        copy.charmImgSrc = copy.charmImg.src;
+                        delete copy.charmImg;
+                    }
+                    return copy;
+                }),
                 beads: beadsOnString.map(b => {
                     const copy = { ...b };
                     if (copy.charmImg) {
@@ -1680,7 +1987,6 @@ Peace Love Unity Respect ❤ - Nev</p>
             }
             if (data.canvasBgColor) canvasBgColorInput.value = data.canvasBgColor;
             if (data.stringColor) stringColorInput.value = data.stringColor;
-            if (data.stringAlpha) stringAlphaSlider.value = data.stringAlpha;
             if (data.showStringLine !== undefined) {
                 showStringLine = data.showStringLine;
                 toggleStringOn.classList.toggle('active', showStringLine);
@@ -1708,6 +2014,28 @@ Peace Love Unity Respect ❤ - Nev</p>
                 bgToggleBtn.classList.remove('danger');
             }
 
+            if (data.sidePlatePosition) {
+                sidePlatePosition = { ...data.sidePlatePosition };
+                applySidePlatePosition();
+            } else {
+                positionSidePlateDefault();
+            }
+
+            if (data.sidePlateBeads) {
+                sidePlateBeads = data.sidePlateBeads.map(b => {
+                    if (b.charmImgSrc) {
+                        const img = new Image();
+                        img.src = b.charmImgSrc;
+                        b.charmImg = img;
+                    }
+                    return b;
+                });
+                renderSidePlate();
+            } else {
+                sidePlateBeads = [];
+                renderSidePlate();
+            }
+
             if (data.beads) {
                 beadsOnString = data.beads.map(b => {
                     if (b.charmImgSrc) {
@@ -1726,6 +2054,7 @@ Peace Love Unity Respect ❤ - Nev</p>
         }
 
         function autoSaveLastDesign() {
+            hasUnsavedChanges = true;
             try {
                 const data = serializeCurrentDesign();
                 localStorage.setItem('kandi_last_design', JSON.stringify(data));
@@ -1752,7 +2081,7 @@ Peace Love Unity Respect ❤ - Nev</p>
         beadLevelTicks.forEach(t => {
             t.addEventListener('click', () => {
                 beadLevelSlider.value = t.dataset.level;
-                applyControlChangesToSelected();
+                applyControlChangesToSelected('size');
             });
         });
 
@@ -1770,7 +2099,7 @@ Peace Love Unity Respect ❤ - Nev</p>
             el.addEventListener('click', () => {
                 finishTypeSelect.value = el.dataset.finish;
                 syncFinishUI();
-                applyControlChangesToSelected();
+                applyControlChangesToSelected('finish');
             });
         });
 
@@ -1782,6 +2111,71 @@ Peace Love Unity Respect ❤ - Nev</p>
         const beadBgColorInput = document.getElementById('beadBgColor');
         const textColorInput = document.getElementById('textColor');
         const selectionBadge = document.getElementById('selectionBadge');
+        const recentColorsEl = document.getElementById('recentColors');
+        const beadCountsEl = document.getElementById('beadCounts');
+        const recentCountToggle = document.getElementById('recentCountToggle');
+        const recentColorsFloat = document.getElementById('recentColorsFloat');
+        const recentColorsFloatHeader = document.getElementById('recentColorsFloatHeader');
+        const letterRow = document.getElementById('letterRow');
+        const letterStyleRow = document.getElementById('letterStyleRow');
+        let recentColors = JSON.parse(localStorage.getItem('kandi_recent_colors') || '[]');
+        let placementType = null;
+        let paletteSelectedType = null;
+        let recentCountMode = localStorage.getItem('kandi_recent_count_mode') === '1';
+        recentCountToggle.checked = recentCountMode;
+
+        function addRecentColor(hex) {
+            if (!hex) return;
+            recentColors = [hex.toLowerCase(), ...recentColors.filter(c => c.toLowerCase() !== hex.toLowerCase())].slice(0, 6);
+            localStorage.setItem('kandi_recent_colors', JSON.stringify(recentColors));
+            renderRecentColors();
+        }
+        function addRecentColor(hex) {
+            if (!hex) return;
+            recentColors = [hex.toLowerCase(), ...recentColors.filter(c => c.toLowerCase() !== hex.toLowerCase())].slice(0, 6);
+            localStorage.setItem('kandi_recent_colors', JSON.stringify(recentColors));
+            renderRecentColors();
+        }
+        function renderRecentColors() {
+            recentColorsEl.innerHTML = '';
+            recentColors.forEach(hex => {
+                const btn = document.createElement('button'); btn.type='button'; btn.title=hex;
+                btn.style.cssText=`width:24px;height:24px;border-radius:50%;border:1px solid #bbb;background:${hex};padding:0;cursor:pointer;box-shadow:inset 0 0 0 2px rgba(255,255,255,.45);`;
+                btn.addEventListener('click',(ev)=>{ ev.stopPropagation(); ponyColorInput.value=hex; beadAlphaSlider.value=1; beadAlphaVal.textContent='100%'; updatePreviewIcons(hex,letterInput.value); applyControlChangesToSelected('color'); addRecentColor(hex); });
+                recentColorsEl.appendChild(btn);
+            });
+            renderBeadCounts();
+        }
+        function updateLetterControlsVisibility(type) {
+            const show = type === 'circle-letter' || type === 'square-letter';
+            letterRow.style.display = show ? 'flex' : 'none'; letterStyleRow.style.display = show ? 'flex' : 'none';
+        }
+        function updatePaletteSelectionHighlight() {
+            document.querySelectorAll('.draggable-bead').forEach(el => el.classList.toggle('palette-selected', el.dataset.type === paletteSelectedType));
+        }
+        function rgbaToHex(value) {
+            if (typeof value !== 'string') return ''; const m=value.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
+            return m ? '#' + [m[1],m[2],m[3]].map(v=>Number(v).toString(16).padStart(2,'0')).join('') : '';
+        }
+        function makeCountKey(bead) {
+            const type=bead.type||'unknown'; const finish=bead.finish||(type==='custom-charm'?'charm':'glossy'); const color=(bead.colorHex||rgbaToHex(bead.color)||'none').toLowerCase();
+            return `${type}__${finish}__${color}`;
+        }
+        function getCountLabel(type,finish,color) {
+            const t=i18n[currentLang]; const names={pony:t.beadDefault,seed:t.beadSeed,'mini-pony':t.beadMiniPony,round:t.beadRound,slim:t.beadSlim,ellipse:t.beadEllipse,heart:t.beadHeart,star:t.beadStar,'circle-letter':t.beadCircleTxt,'square-letter':t.beadSquareTxt,'custom-charm':t.customCharms};
+            const finishNames={glossy:t.finishGlossy,matte:t.finishMatte,glassy:t.finishGlassy};
+            return `${names[type]||type} · ${finishNames[finish]||finish}${color&&color!=='none'?` · ${color}`:''}`;
+        }
+        function renderBeadCounts() {
+            if (!beadCountsEl) return; if (!recentCountMode) { beadCountsEl.style.display='none'; beadCountsEl.innerHTML=''; return; }
+            const groups=new Map(); [...beadsOnString,...sidePlateBeads].forEach(bead=>{ const key=makeCountKey(bead); if(!groups.has(key)) groups.set(key,{bead,count:0}); groups.get(key).count++; });
+            beadCountsEl.style.display=groups.size?'block':'none'; beadCountsEl.innerHTML='';
+            groups.forEach(({bead,count})=>{ const row=document.createElement('div'); row.className='bead-count-row'; const wrap=document.createElement('div'); wrap.className='bead-count-preview'; const c=document.createElement('canvas'); drawBeadPreviewOnCanvas(c,bead); wrap.appendChild(c); const label=document.createElement('span'); label.style.flex='1'; label.textContent=getCountLabel(bead.type,bead.finish,bead.colorHex||''); const num=document.createElement('span'); num.className='bead-count-number'; num.textContent=String(count); row.append(wrap,label,num); beadCountsEl.appendChild(row); });
+        }
+        recentCountToggle.addEventListener('change',()=>{ recentCountMode=recentCountToggle.checked; localStorage.setItem('kandi_recent_count_mode',recentCountMode?'1':'0'); renderBeadCounts(); });
+        let recentFloatDrag=null;
+        recentColorsFloatHeader.addEventListener('pointerdown',(e)=>{ if(e.target.closest('label')) return; const r=recentColorsFloat.getBoundingClientRect(); recentFloatDrag={startX:e.clientX,startY:e.clientY,left:r.left,top:r.top}; recentColorsFloat.classList.add('dragging'); const move=ev=>{ if(!recentFloatDrag)return; const left=Math.max(8,Math.min(window.innerWidth-recentColorsFloat.offsetWidth-8,recentFloatDrag.left+ev.clientX-recentFloatDrag.startX)); const top=Math.max(8,Math.min(window.innerHeight-recentColorsFloat.offsetHeight-8,recentFloatDrag.top+ev.clientY-recentFloatDrag.startY)); recentColorsFloat.style.left=left+'px'; recentColorsFloat.style.top=top+'px'; }; const up=()=>{recentColorsFloat.classList.remove('dragging');recentFloatDrag=null;window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up);}; window.addEventListener('pointermove',move);window.addEventListener('pointerup',up); });
+        renderRecentColors(); updatePaletteSelectionHighlight();
 
         const uploadCharmBtn = document.getElementById('uploadCharmBtn');
         const charmInput = document.getElementById('charmInput');
@@ -1798,7 +2192,6 @@ Peace Love Unity Respect ❤ - Nev</p>
 
         canvasBgColorInput.addEventListener('input', () => { drawScene(); autoSaveLastDesign(); });
         stringColorInput.addEventListener('input', () => { drawScene(); autoSaveLastDesign(); });
-        stringAlphaSlider.addEventListener('input', () => { drawScene(); autoSaveLastDesign(); });
 
         toggleStringOn.addEventListener('click', () => {
             showStringLine = true;
@@ -1924,10 +2317,51 @@ Peace Love Unity Respect ❤ - Nev</p>
             autoSaveLastDesign();
         }
 
+        let beadClipboard = [];
+
         window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') { placementType=null; paletteSelectedType=null; updatePaletteSelectionHighlight(); updateLetterControlsVisibility(null); return; }
             if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
                 e.preventDefault();
                 undo();
+                return;
+            }
+
+            const activeTag = document.activeElement ? document.activeElement.tagName : '';
+            if (activeTag === 'INPUT' || activeTag === 'TEXTAREA') return; // 避免干扰文本输入框
+
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'c') {
+                if (selectedBeadIds.size > 0) {
+                    e.preventDefault();
+                    beadClipboard = beadsOnString
+                        .filter(b => selectedBeadIds.has(b.id))
+                        .map(b => ({ ...b }));
+                }
+            } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'v') {
+                if (beadClipboard.length > 0) {
+                    e.preventDefault();
+                    saveState();
+                    const angleOffset = 0.15;
+                    const newIds = [];
+                    const pasted = beadClipboard.map(b => {
+                        const newAngle = b.angle + angleOffset;
+                        const newBead = {
+                            ...b,
+                            id: Date.now() + Math.random(),
+                            angle: newAngle,
+                            x: circle.x + circle.radius * Math.cos(newAngle),
+                            y: circle.y + circle.radius * Math.sin(newAngle)
+                        };
+                        newIds.push(newBead.id);
+                        return newBead;
+                    });
+                    pasted.forEach(b => beadsOnString.push(b));
+                    beadsOnString.sort((a, b) => a.angle - b.angle);
+                    selectedBeadIds.clear();
+                    newIds.forEach(id => selectedBeadIds.add(id));
+                    updateSelectionUI();
+                    autoSaveLastDesign();
+                }
             }
         });
 
@@ -2009,7 +2443,7 @@ Peace Love Unity Respect ❤ - Nev</p>
             imgEl.addEventListener('pointerdown', (e) => {
                 e.preventDefault();
                 draggingState = { mode: 'NEW_CHARM', charmObj: charmObj };
-                dragGhost.innerHTML = `<img src="${charmObj.img.src}" style="width:36px; height:36px; object-fit:contain;">`;
+                dragGhost.innerHTML = `<img src="${charmObj.img.src}" style="width:56px; height:56px; object-fit:contain;">`;
                 dragGhost.style.display = 'block';
                 updateGhostPos(e.clientX, e.clientY);
 
@@ -2050,19 +2484,24 @@ Peace Love Unity Respect ❤ - Nev</p>
             if (selectedBeadIds.size > 0) {
                 beadsOnString.forEach(bead => {
                     if (selectedBeadIds.has(bead.id)) {
-                        bead.color = colorRgba;
-                        bead.colorHex = colorHex;
-                        bead.alpha = alpha;
-                        bead.bgColor = beadBgColorInput.value;
-                        bead.textColor = textColorInput.value;
-                        // 仅当用户主动编辑"字母"输入框时才覆盖字母内容，
-                        // 避免调整颜色/质地/尺寸等无关设置时把多选珠子的字母统一成同一个字符
-                        if (source === 'letter') {
+                        // 仅更新触发本次调整的属性，避免调整无关设置（如尺寸/质地）
+                        // 时意外覆盖多选珠子各自原有的颜色、字母等设置
+                        if (source === 'color') {
+                            bead.color = colorRgba;
+                            bead.colorHex = colorHex;
+                            bead.alpha = alpha;
+                        } else if (source === 'bg') {
+                            bead.bgColor = beadBgColorInput.value;
+                        } else if (source === 'textColor') {
+                            bead.textColor = textColorInput.value;
+                        } else if (source === 'letter') {
                             bead.text = char;
+                        } else if (source === 'finish') {
+                            bead.finish = finish;
+                        } else if (source === 'size') {
+                            bead.sizeLevel = level;
+                            bead.scale = sizeLevelScaleMap[level];
                         }
-                        bead.finish = finish;
-                        bead.sizeLevel = level;
-                        bead.scale = sizeLevelScaleMap[level];
                     }
                 });
                 drawScene();
@@ -2090,9 +2529,12 @@ Peace Love Unity Respect ❤ - Nev</p>
             document.getElementById('prevSquareTxt').textContent = char;
         }
 
-        [ponyColorInput, beadAlphaSlider, beadBgColorInput, textColorInput, beadLevelSlider].forEach(el => {
-            el.addEventListener('input', () => applyControlChangesToSelected());
+        [ponyColorInput, beadAlphaSlider].forEach(el => {
+            el.addEventListener('input', () => applyControlChangesToSelected('color'));
         });
+        beadBgColorInput.addEventListener('input', () => applyControlChangesToSelected('bg'));
+        textColorInput.addEventListener('input', () => applyControlChangesToSelected('textColor'));
+        beadLevelSlider.addEventListener('input', () => applyControlChangesToSelected('size'));
         letterInput.addEventListener('input', () => applyControlChangesToSelected('letter'));
 
         radiusSlider.addEventListener('input', (e) => {
@@ -2264,7 +2706,7 @@ Peace Love Unity Respect ❤ - Nev</p>
 
             if (showStringLine) {
                 const sColorHex = stringColorInput.value;
-                const sAlpha = parseFloat(stringAlphaSlider.value);
+                const sAlpha = 1;
                 ctx.save();
                 ctx.beginPath();
                 ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
@@ -2339,10 +2781,10 @@ Peace Love Unity Respect ❤ - Nev</p>
                 const lines = t.rotateText;
                 const lineHeight = 18;
 
-                // 绘制一个半透明白色虚线边框的长方形作为背景（宽高对调）
-                const paddingY = 8;
-                const blockHeight = canvas.width / 2;
-                const blockWidth = lines.length * lineHeight + paddingY * 2 - (lineHeight - 13);
+                // 让“拖拽此处”提示框纵向占满画布高度，同时保留与画布左右边缘相同的内边距。
+                const blockWidth = 62;
+                const currentLeftGap = posX - blockWidth / 2;
+                const blockHeight = Math.max(0, canvas.height - currentLeftGap * 2);
                 ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
                 ctx.beginPath();
                 ctx.rect(posX - blockWidth / 2, posY - blockHeight / 2, blockWidth, blockHeight);
@@ -2623,41 +3065,36 @@ Peace Love Unity Respect ❤ - Nev</p>
         });
 
         function drawWatermark(position, color) {
-            const text = 'KANDIWITHNEV';
-            const createdText = 'CREATED USING';
+            // Keep the two-line watermark as one positioned unit so every corner
+            // uses the same anchor instead of accidentally centering the text.
+            const title = 'KANDIWITHNEV';
+            const prefix = 'CREATED USING';
             const margin = 20;
-            const mainFontSize = 19;
-            const createdFontSize = 11;
+            const titleSize = 19;
+            const prefixSize = 11;
             const lineGap = 1;
-
             ctx.save();
-            ctx.textAlign = 'center';
-            ctx.textBaseline = position.startsWith('top') ? 'top' : 'bottom';
+            ctx.textAlign = position.endsWith('left') ? 'left' : position.endsWith('right') ? 'right' : 'center';
+            ctx.textBaseline = 'top';
 
-            const x = canvas.width / 2;
-            let mainY, createdY;
+            let x = margin;
+            let topY = margin;
+            if (position.includes('center')) x = canvas.width / 2;
+            else if (position.includes('right')) x = canvas.width - margin;
+            if (position.startsWith('bottom')) topY = canvas.height - margin - prefixSize - lineGap - titleSize;
 
-            if (position.startsWith('top')) {
-                createdY = margin;
-                mainY = margin + createdFontSize + lineGap;
-            } else {
-                mainY = canvas.height - margin;
-                createdY = mainY - mainFontSize - lineGap;
-            }
-
-            ctx.font = `${createdFontSize}px 'Kirang Haerang', cursive`;
-            ctx.fillStyle = '#888888';
-            ctx.fillText(createdText, x, createdY);
-
-            ctx.font = `${mainFontSize}px 'Kirang Haerang', cursive`;
+            ctx.font = `${prefixSize}px 'Segoe UI', sans-serif`;
+            ctx.fillStyle = '#999999';
+            ctx.fillText(prefix, x, topY);
+            ctx.font = `${titleSize}px 'Kirang Haerang', cursive`;
             ctx.fillStyle = color;
-            ctx.fillText(text, x, mainY);
-
+            ctx.fillText(title, x, topY + prefixSize + lineGap);
             ctx.restore();
         }
 
-        watermarkConfirmBtn.addEventListener('click', () => {
+        watermarkConfirmBtn.addEventListener('click', async () => {
             watermarkModalOverlay.style.display = 'none';
+            try { await document.fonts.load("17px 'Kirang Haerang'"); } catch (e) {}
             drawScene(true);
             drawWatermark(selectedWatermarkPos, selectedWatermarkColor);
             pendingExportDataUrl = canvas.toDataURL('image/png');
@@ -2693,7 +3130,12 @@ Peace Love Unity Respect ❤ - Nev</p>
             e.preventDefault();
             const elem = e.currentTarget;
             const type = elem.getAttribute('data-type');
-            draggingState = { mode: 'NEW', type: type };
+            const wasAlreadySelected = (placementType === type && paletteSelectedType === type);
+            draggingState = { mode: 'NEW', type: type, startClientX: e.clientX, startClientY: e.clientY, moved: false, wasAlreadySelected };
+            placementType = type;
+            paletteSelectedType = type;
+            updatePaletteSelectionHighlight();
+            updateLetterControlsVisibility(type);
 
             dragGhost.innerHTML = elem.querySelector('svg').outerHTML;
             dragGhost.style.display = 'block';
@@ -2711,6 +3153,276 @@ Peace Love Unity Respect ❤ - Nev</p>
         }
         bindDraggableBeads();
 
+        // ================= 小托盘 (Side Plate) =================
+        const sidePlateEl = document.getElementById('sidePlate');
+        const sidePlateItemsEl = document.getElementById('sidePlateItems');
+        let sidePlatePosition = null;
+        let trayDragState = null;
+
+        function applySidePlatePosition() {
+            if (!sidePlatePosition) return;
+            sidePlateEl.style.left = `${sidePlatePosition.left}px`;
+            sidePlateEl.style.top = `${sidePlatePosition.top}px`;
+            sidePlateEl.style.transform = 'none';
+        }
+
+        function positionSidePlateDefault() {
+            const canvasRect = canvas.getBoundingClientRect();
+            const trayRect = sidePlateEl.getBoundingClientRect();
+            const gap = 20;
+            let left = canvasRect.left - trayRect.width - gap;
+            if (left < 10) left = canvasRect.right + gap;
+            let top = canvasRect.top + (canvasRect.height - trayRect.height) / 2;
+            top = Math.max(10, Math.min(window.innerHeight - trayRect.height - 10, top));
+            sidePlatePosition = { left, top };
+            applySidePlatePosition();
+        }
+
+        function ensureSidePlateOutsideCanvas() {
+            if (!sidePlatePosition) positionSidePlateDefault();
+            else applySidePlatePosition();
+        }
+
+        sidePlateEl.addEventListener('pointerdown', (e) => {
+            if (e.target.closest('.tray-bead-item')) return;
+            e.preventDefault(); e.stopPropagation();
+            const r = sidePlateEl.getBoundingClientRect();
+            trayDragState = { offsetX: e.clientX - r.left, offsetY: e.clientY - r.top };
+            sidePlateEl.classList.add('dragging');
+            sidePlateEl.setPointerCapture?.(e.pointerId);
+        });
+        sidePlateEl.addEventListener('pointermove', (e) => {
+            if (!trayDragState) return;
+            const r = sidePlateEl.getBoundingClientRect();
+            const left = Math.max(6, Math.min(window.innerWidth - r.width - 6, e.clientX - trayDragState.offsetX));
+            const top = Math.max(6, Math.min(window.innerHeight - r.height - 6, e.clientY - trayDragState.offsetY));
+            sidePlatePosition = { left, top };
+            applySidePlatePosition();
+        });
+        sidePlateEl.addEventListener('pointerup', () => {
+            if (!trayDragState) return;
+            trayDragState = null;
+            sidePlateEl.classList.remove('dragging');
+            autoSaveLastDesign();
+        });
+        sidePlateEl.addEventListener('pointercancel', () => { trayDragState = null; sidePlateEl.classList.remove('dragging'); });
+        window.addEventListener('resize', () => { if (!sidePlatePosition) positionSidePlateDefault(); });
+
+        function isPointInElementRect(clientX, clientY, el) {
+            const r = el.getBoundingClientRect();
+            return clientX >= r.left && clientX <= r.right && clientY >= r.top && clientY <= r.bottom;
+        }
+
+        // Tray previews use the same geometry/finish/rotation as the canvas bead,
+        // with a 1:1 visual scale (no arbitrary 44px shrinking).
+        function getBeadVisualSize(bead) {
+            const beadScale = bead.scale || 4.0;
+            if (bead.type === 'custom-charm') return 56 * (beadScale / 4);
+            if (bead.type === 'pony' || bead.type === 'mini-pony') return 40 * beadScale * 0.5;
+            if (bead.type === 'slim') return 20 * beadScale * 0.5;
+            if (bead.type === 'ellipse' || bead.type === 'heart') return 30 * beadScale * 0.5;
+            if (bead.type === 'star') return 24 * beadScale * 0.5;
+            return 26 * beadScale * 0.5;
+        }
+
+        function drawBeadPreviewOnCanvas(c, bead) {
+            // 托盘预览：使用与画布珠子完全相同的绘制参数与绘制效果。
+            // 这里只把画布坐标改为预览画布中心；不增加白底、描边容器或额外艺术效果。
+            const sourceScale = bead.scale || 4.0;
+
+            if (bead.type === 'custom-charm') {
+                const charmSize = 56 * (sourceScale / 4);
+                const pad = 8;
+                const size = Math.ceil(charmSize + pad * 2);
+                c.width = size;
+                c.height = size;
+                c.style.background = 'transparent';
+                c.style.border = '0';
+                c.style.outline = '0';
+                c.style.boxShadow = 'none';
+
+                const ctx = c.getContext('2d');
+                ctx.clearRect(0, 0, size, size);
+                ctx.save();
+                ctx.translate(size / 2, size / 2);
+                if (bead.rotation) ctx.rotate((bead.rotation * Math.PI) / 180);
+                if (bead.charmImg) {
+                    ctx.drawImage(bead.charmImg, -charmSize / 2, -charmSize / 2, charmSize, charmSize);
+                }
+                ctx.restore();
+                return;
+            }
+
+            let beadScale = sourceScale;
+            if (bead.type === 'seed' || bead.type === 'mini-pony') beadScale *= 0.5;
+            if (bead.type === 'star') beadScale *= 0.8;
+
+            // 与画布相同的几何尺寸，计算足够的透明留白，避免任何形状被 canvas 边缘裁切。
+            let baseHalfExtent = 13;
+            if (bead.type === 'pony' || bead.type === 'mini-pony') baseHalfExtent = 13;
+            else if (bead.type === 'slim') baseHalfExtent = 13;
+            else if (bead.type === 'ellipse' || bead.type === 'heart') baseHalfExtent = 13;
+            else if (bead.type === 'star') baseHalfExtent = 19.5;
+            else if (bead.type === 'square-letter') baseHalfExtent = 12;
+
+            const renderedHalfExtent = baseHalfExtent * beadScale * 0.5;
+            const size = Math.max(48, Math.ceil(renderedHalfExtent * 2 + 14));
+
+            c.width = size;
+            c.height = size;
+            c.style.background = 'transparent';
+            c.style.border = '0';
+            c.style.outline = '0';
+            c.style.boxShadow = 'none';
+
+            const ctx = c.getContext('2d');
+            ctx.clearRect(0, 0, size, size);
+            ctx.save();
+            ctx.translate(size / 2, size / 2);
+
+            const isLetterBead = bead.type === 'circle-letter' || bead.type === 'square-letter';
+
+            // 字母珠在托盘中保持直立；其他珠子完全沿用画布上的旋转。
+            if (!isLetterBead) {
+                ctx.rotate((bead.angle || 0) + Math.PI / 2);
+            }
+
+            ctx.save();
+            ctx.scale(beadScale * 0.5, beadScale * 0.5);
+
+            if (bead.rotation) {
+                ctx.rotate((bead.rotation * Math.PI) / 180);
+            }
+
+            if (bead.type === 'pony' || bead.type === 'mini-pony') {
+                createPonyPath(ctx, 20, 26);
+            } else if (bead.type === 'seed' || bead.type === 'round' || bead.type === 'circle-letter') {
+                ctx.beginPath();
+                ctx.arc(0, 0, 13, 0, Math.PI * 2);
+            } else if (bead.type === 'slim') {
+                createPonyPath(ctx, 10, 26);
+            } else if (bead.type === 'ellipse') {
+                createPointyEllipsePath(ctx);
+            } else if (bead.type === 'heart') {
+                createHeartPath(ctx);
+            } else if (bead.type === 'star') {
+                createClassicSoftStarPath(ctx);
+            } else if (bead.type === 'square-letter') {
+                ctx.beginPath();
+                ctx.roundRect(-12, -12, 24, 24, 4);
+            }
+
+            const finish = bead.finish || 'glossy';
+            const baseColor = bead.type.includes('letter') ? bead.bgColor : bead.color;
+
+            // 以下与画布 drawScene 的珠子绘制保持一致。
+            ctx.save();
+            ctx.shadowColor = 'rgba(0,0,0,0.15)';
+            ctx.shadowBlur = 5;
+            ctx.shadowOffsetY = 2;
+            ctx.fillStyle = baseColor;
+            ctx.fill();
+            ctx.restore();
+
+            ctx.strokeStyle = getDarkerColor(baseColor, 0.8);
+            ctx.lineWidth = 1.2;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.stroke();
+
+            if (isLetterBead) {
+                ctx.fillStyle = bead.textColor;
+                ctx.font = '700 18px "Fredoka", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(bead.text, 0, 1.5);
+            }
+
+            ctx.clip();
+
+            if (finish === 'glossy') {
+                const grad = ctx.createLinearGradient(-10, -10, 10, 10);
+                grad.addColorStop(0, 'rgba(255,255,255,0.5)');
+                grad.addColorStop(0.35, 'rgba(255,255,255,0.05)');
+                grad.addColorStop(1, 'rgba(0,0,0,0.15)');
+                ctx.fillStyle = grad;
+                ctx.fill();
+
+                ctx.fillStyle = 'rgba(255,255,255,0.8)';
+                ctx.beginPath();
+                ctx.arc(-4, -4, 2, 0, Math.PI * 2);
+                ctx.fill();
+            } else if (finish === 'matte') {
+                const grad = ctx.createRadialGradient(0, 0, 1, 0, 0, 14);
+                grad.addColorStop(0, 'rgba(255,255,255,0.15)');
+                grad.addColorStop(0.8, 'rgba(0,0,0,0.05)');
+                grad.addColorStop(1, 'rgba(0,0,0,0.25)');
+                ctx.fillStyle = grad;
+                ctx.fill();
+            } else if (finish === 'glassy') {
+                const metGrad = ctx.createLinearGradient(-12, -12, 12, 12);
+                metGrad.addColorStop(0, 'rgba(255,255,255,0.85)');
+                metGrad.addColorStop(0.25, 'rgba(255,255,255,0.2)');
+                metGrad.addColorStop(0.5, 'rgba(0,0,0,0.02)');
+                metGrad.addColorStop(0.75, 'rgba(255,255,255,0.4)');
+                metGrad.addColorStop(1, 'rgba(0,0,0,0.35)');
+                ctx.fillStyle = metGrad;
+                ctx.fill();
+
+                ctx.fillStyle = 'rgba(255,255,255,0.95)';
+                ctx.beginPath();
+                ctx.ellipse(-3, -5, 4, 1.5, -Math.PI / 4, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            ctx.restore();
+            ctx.restore();
+        }
+
+        function renderSidePlate() {
+            sidePlateItemsEl.innerHTML = '';
+            sidePlateBeads.forEach((bead, index) => {
+                const item = document.createElement('div');
+                item.className = `tray-bead-item shape-${bead.type}`;
+                item.dataset.trayIndex = index;
+                const preview = document.createElement('canvas');
+                drawBeadPreviewOnCanvas(preview, bead);
+                preview.style.width = preview.width + 'px';
+                preview.style.height = preview.height + 'px';
+                item.style.width = preview.width + 'px';
+                item.style.height = preview.height + 'px';
+                item.style.border = '0';
+                item.style.boxShadow = 'none';
+                item.style.background = 'transparent';
+                item.style.outline = 'none';
+                preview.style.background = 'transparent';
+                preview.style.border = '0';
+                preview.style.outline = 'none';
+                item.appendChild(preview);
+                item.addEventListener('pointerdown', (e) => handleTrayBeadPointerDown(e, index));
+                sidePlateItemsEl.appendChild(item);
+            });
+        }
+        renderSidePlate();
+        requestAnimationFrame(ensureSidePlateOutsideCanvas);
+
+        function handleTrayBeadPointerDown(e, index) {
+            e.preventDefault();
+            e.stopPropagation();
+            const beadData = sidePlateBeads[index];
+            draggingState = { mode: 'FROM_TRAY', trayIndex: index, beadData: { ...beadData } };
+            const ghostEl = e.currentTarget.querySelector('canvas').cloneNode(true);
+            // 拖出托盘时也保持珠子原本的 1:1 尺寸，不再强制缩成 44px。
+            ghostEl.style.width = ghostEl.width + 'px';
+            ghostEl.style.height = ghostEl.height + 'px';
+            dragGhost.innerHTML = '';
+            dragGhost.appendChild(ghostEl);
+            dragGhost.style.display = 'block';
+            updateGhostPos(e.clientX, e.clientY);
+            window.addEventListener('pointermove', onPointerMove);
+            window.addEventListener('pointerup', onPointerUp);
+        }
+
         canvas.addEventListener('dblclick', (e) => {
             const rect = canvas.getBoundingClientRect();
             const scaleFactor = canvas.width / rect.width;
@@ -2721,7 +3433,7 @@ Peace Love Unity Respect ❤ - Nev</p>
                 const b = beadsOnString[i];
                 if (b.type === 'circle-letter' || b.type === 'square-letter') {
                     let beadScale = b.scale || 4.0;
-                    const hitLimit = 8 * beadScale;
+                    const hitLimit = 5.0 * beadScale;
                     const dist = Math.hypot(b.x - clickX, b.y - clickY);
                     if (dist <= hitLimit) {
                         const t = i18n[currentLang];
@@ -2739,11 +3451,64 @@ Peace Love Unity Respect ❤ - Nev</p>
             }
         });
 
+        // 返回指定画布坐标下命中的珠子。用于在连续放置模式中优先选择已有珠子，
+        // 避免玩家想编辑已有珠子时误创建新珠子。
+        function getClickedBeadAt(clickX, clickY) {
+            for (let i = beadsOnString.length - 1; i >= 0; i--) {
+                const b = beadsOnString[i];
+                let beadScale = b.scale || 4.0;
+                if (b.type === 'seed' || b.type === 'mini-pony') beadScale *= 0.5;
+                if (b.type === 'star') beadScale *= 0.8;
+
+                let hitX = b.x, hitY = b.y;
+                let hitLimit = (b.type === 'star') ? 6.0 * beadScale : 5.0 * beadScale;
+                if (b.type === 'custom-charm') {
+                    const offsetVal = (b.charmOffset !== undefined) ? b.charmOffset : 70;
+                    const charmDistOffset = offsetVal * (beadScale / 4);
+                    hitX = b.x + charmDistOffset * Math.cos(b.angle);
+                    hitY = b.y + charmDistOffset * Math.sin(b.angle);
+                    hitLimit = 12 * beadScale;
+                }
+                if (Math.hypot(hitX - clickX, hitY - clickY) <= hitLimit) return b;
+            }
+            return null;
+        }
+
         canvas.addEventListener('pointerdown', (e) => {
             const rect = canvas.getBoundingClientRect();
             const scaleFactor = canvas.width / rect.width;
             const clickX = (e.clientX - rect.left) * scaleFactor;
             const clickY = (e.clientY - rect.top) * scaleFactor;
+
+            const clickedBeadBeforePlacement = getClickedBeadAt(clickX, clickY);
+
+            // 选定珠子形状后，单击空白画布即可直接放置。
+            // 如果点击位置已经有珠子，则优先选中/编辑已有珠子，不创建新珠子。
+            if (placementType && !clickedBeadBeforePlacement) {
+                const dropAngle = Math.atan2(clickY - circle.y, clickX - circle.x);
+                const colorHex = ponyColorInput.value;
+                const alpha = parseFloat(beadAlphaSlider.value);
+                const colorRgba = hexToRgba(colorHex, alpha);
+                const char = letterInput.value.slice(0, 1) || 'A';
+                const newId = Date.now() + Math.random();
+                saveState();
+                beadsOnString.push({
+                    id:newId, type:placementType, angle:dropAngle,
+                    x:circle.x + circle.radius*Math.cos(dropAngle),
+                    y:circle.y + circle.radius*Math.sin(dropAngle),
+                    color:colorRgba, colorHex:colorHex, alpha:alpha,
+                    bgColor:beadBgColorInput.value, textColor:textColorInput.value, text:char,
+                    finish:finishTypeSelect.value, sizeLevel:4, scale:sizeLevelScaleMap[4], rotation:0
+                });
+                beadsOnString.sort((a,b)=>a.angle-b.angle);
+                selectedBeadIds.clear(); selectedBeadIds.add(newId);
+                addRecentColor(colorHex);
+                // Keep the selected palette shape active so the player can place
+                // multiple identical beads with consecutive canvas clicks.
+                updatePaletteSelectionHighlight();
+                updateSelectionUI(); drawScene(); autoSaveLastDesign();
+                return;
+            }
 
             // 检测旋转 Icon 的点击
             if (selectedBeadIds.size === 1) {
@@ -2772,51 +3537,41 @@ Peace Love Unity Respect ❤ - Nev</p>
             const boxY = circle.y - boxSize / 2;
             const isInsideCenterBox = (clickX >= boxX && clickX <= boxX + boxSize && clickY >= boxY && clickY <= boxY + boxSize);
 
-            let clickedBead = null;
-            for (let i = beadsOnString.length - 1; i >= 0; i--) {
-                const b = beadsOnString[i];
-                let beadScale = b.scale || 4.0;
-                if (b.type === 'seed' || b.type === 'mini-pony') beadScale *= 0.5;
-                if (b.type === 'star') beadScale *= 0.8;
-
-                let hitX = b.x, hitY = b.y;
-                let hitLimit = (b.type === 'star') ? 10 * beadScale : 8 * beadScale;
-                
-                if (b.type === 'custom-charm') {
-                    const offsetVal = (b.charmOffset !== undefined) ? b.charmOffset : 70;
-                    const charmDistOffset = offsetVal * (beadScale / 4);
-                    hitX = b.x + charmDistOffset * Math.cos(b.angle);
-                    hitY = b.y + charmDistOffset * Math.sin(b.angle);
-                    hitLimit = 20 * beadScale;
-                }
-
-                const dist = Math.hypot(hitX - clickX, hitY - clickY);
-                if (dist <= hitLimit) {
-                    clickedBead = b;
-                    break;
-                }
-            }
+            let clickedBead = clickedBeadBeforePlacement || getClickedBeadAt(clickX, clickY);
 
             if (clickedBead) {
                 saveState();
-                if (!selectedBeadIds.has(clickedBead.id)) {
+                if (e.ctrlKey || e.metaKey) {
+                    // 按住 Ctrl/Cmd 点击：切换该珠子的选中状态，保留其余已选中的珠子
+                    if (selectedBeadIds.has(clickedBead.id)) {
+                        selectedBeadIds.delete(clickedBead.id);
+                    } else {
+                        selectedBeadIds.add(clickedBead.id);
+                    }
+                } else if (!selectedBeadIds.has(clickedBead.id)) {
                     selectedBeadIds.clear();
                     selectedBeadIds.add(clickedBead.id);
                 }
                 updateSelectionUI();
 
-                const startAngle = Math.atan2(clickY - circle.y, clickX - circle.x);
-                const initialBeadAngles = {};
-                beadsOnString.forEach(b => {
-                    if (selectedBeadIds.has(b.id)) {
-                        initialBeadAngles[b.id] = b.angle;
-                    }
-                });
+                if (selectedBeadIds.size === 0) {
+                    window.addEventListener('pointermove', onPointerMove);
+                    window.addEventListener('pointerup', onPointerUp);
+                    return;
+                }
 
+                // Start in TRACK mode. While the pointer remains near the string,
+                // the bead follows the nearest point on the track. Only when the
+                // user deliberately pulls it away from the track does it detach
+                // and become freely draggable.
+                const pointerToBeadX = clickX - clickedBead.x;
+                const pointerToBeadY = clickY - clickedBead.y;
                 draggingState = {
-                    mode: 'EXISTING_GROUP',
-                    startAngle: startAngle,
-                    initialBeadAngles: initialBeadAngles
+                    mode: 'EXISTING_TRACK',
+                    beadId: clickedBead.id,
+                    pointerOffsetX: pointerToBeadX,
+                    pointerOffsetY: pointerToBeadY,
+                    detachDistance: 30
                 };
             } else if (isInsideCenterBox) {
                 centerImageInput.click();
@@ -2863,8 +3618,16 @@ Peace Love Unity Respect ❤ - Nev</p>
                 let deg = draggingState.initialRotation + (deltaAngle * 180 / Math.PI);
                 bead.rotation = (deg % 360 + 360) % 360;
                 drawScene();
-            } else if (draggingState.mode === 'NEW' || draggingState.mode === 'NEW_CHARM') {
+            } else if (draggingState.mode === 'NEW' || draggingState.mode === 'NEW_CHARM' || draggingState.mode === 'FROM_TRAY') {
+                if (draggingState.mode === 'NEW') {
+                    draggingState.moved = Math.hypot(e.clientX - draggingState.startClientX, e.clientY - draggingState.startClientY) > 6;
+                }
                 updateGhostPos(e.clientX, e.clientY);
+                if (isPointInElementRect(e.clientX, e.clientY, sidePlateEl)) {
+                    sidePlateEl.classList.add('drag-over');
+                } else {
+                    sidePlateEl.classList.remove('drag-over');
+                }
             } else if (draggingState.mode === 'BOX_SELECT') {
                 selectionBox.currentX = mouseX;
                 selectionBox.currentY = mouseY;
@@ -2882,6 +3645,46 @@ Peace Love Unity Respect ❤ - Nev</p>
                 });
 
                 drawScene();
+            } else if (draggingState.mode === 'EXISTING_TRACK') {
+                const bead = beadsOnString.find(b => b.id === draggingState.beadId);
+                if (bead) {
+                    const pointerX = mouseX - draggingState.pointerOffsetX;
+                    const pointerY = mouseY - draggingState.pointerOffsetY;
+                    const radialDistance = Math.hypot(pointerX - circle.x, pointerY - circle.y);
+                    const distanceFromTrack = Math.abs(radialDistance - circle.radius);
+
+                    // 在圆形轨道的内部范围拖动时，始终优先跟随轨道。
+                    // 只有真正把光标拖出圆形范围后，才开始判断是否有意脱离轨道。
+                    if (radialDistance <= circle.radius) {
+                        const snapAngle = Math.atan2(pointerY - circle.y, pointerX - circle.x);
+                        bead.angle = snapAngle;
+                        bead.x = circle.x + circle.radius * Math.cos(snapAngle);
+                        bead.y = circle.y + circle.radius * Math.sin(snapAngle);
+                    } else if (distanceFromTrack > draggingState.detachDistance) {
+                        draggingState.mode = 'EXISTING_FREE';
+                        bead.x = pointerX;
+                        bead.y = pointerY;
+                    } else {
+                        const snapAngle = Math.atan2(pointerY - circle.y, pointerX - circle.x);
+                        bead.angle = snapAngle;
+                        bead.x = circle.x + circle.radius * Math.cos(snapAngle);
+                        bead.y = circle.y + circle.radius * Math.sin(snapAngle);
+                    }
+                    if (isPointInElementRect(e.clientX, e.clientY, sidePlateEl)) sidePlateEl.classList.add('drag-over');
+                    else sidePlateEl.classList.remove('drag-over');
+                    drawScene();
+                    updateContextMenuPosition();
+                }
+            } else if (draggingState.mode === 'EXISTING_TRACK' || draggingState.mode === 'EXISTING_FREE') {
+                const bead = beadsOnString.find(b => b.id === draggingState.beadId);
+                if (bead) {
+                    bead.x = mouseX - (draggingState.pointerOffsetX || 0);
+                    bead.y = mouseY - (draggingState.pointerOffsetY || 0);
+                    if (isPointInElementRect(e.clientX, e.clientY, sidePlateEl)) sidePlateEl.classList.add('drag-over');
+                    else sidePlateEl.classList.remove('drag-over');
+                    drawScene();
+                    updateContextMenuPosition();
+                }
             } else if (draggingState.mode === 'EXISTING_GROUP') {
                 const currentAngle = Math.atan2(mouseY - circle.y, mouseX - circle.x);
                 const deltaAngle = currentAngle - draggingState.startAngle;
@@ -2897,6 +3700,12 @@ Peace Love Unity Respect ❤ - Nev</p>
                 beadsOnString.sort((a, b) => a.angle - b.angle);
                 drawScene();
                 updateContextMenuPosition();
+
+                if (isPointInElementRect(e.clientX, e.clientY, sidePlateEl)) {
+                    sidePlateEl.classList.add('drag-over');
+                } else {
+                    sidePlateEl.classList.remove('drag-over');
+                }
             } else if (draggingState.mode === 'ROTATE_ALL') {
                 const currentMouseAngle = Math.atan2(mouseY - circle.y, mouseX - circle.x);
                 const deltaAngle = currentMouseAngle - draggingState.startMouseAngle;
@@ -2922,68 +3731,184 @@ Peace Love Unity Respect ❤ - Nev</p>
             window.removeEventListener('pointermove', onPointerMove);
             window.removeEventListener('pointerup', onPointerUp);
 
+            const droppedOnTray = isPointInElementRect(e.clientX, e.clientY, sidePlateEl);
+            sidePlateEl.classList.remove('drag-over');
+
             if (draggingState.mode === 'NEW' || draggingState.mode === 'NEW_CHARM') {
                 dragGhost.style.display = 'none';
 
-                const rect = canvas.getBoundingClientRect();
-                if (e.clientX >= rect.left && e.clientX <= rect.right &&
-                    e.clientY >= rect.top && e.clientY <= rect.bottom) {
+                // 单击珠子形状：进入放置模式；只有实际拖动才执行原来的拖放逻辑。
+                if (draggingState.mode === 'NEW' && !draggingState.moved) {
+                    if (draggingState.wasAlreadySelected) {
+                        // 再次点击当前高亮的珠子形状：取消选中/退出连续放置模式。
+                        placementType = null;
+                        paletteSelectedType = null;
+                        updatePaletteSelectionHighlight();
+                        updateLetterControlsVisibility(null);
+                    } else {
+                        placementType = draggingState.type;
+                        paletteSelectedType = draggingState.type;
+                        updatePaletteSelectionHighlight();
+                        updateLetterControlsVisibility(placementType);
+                    }
+                    draggingState = null;
+                    return;
+                }
 
-                    const scaleFactor = canvas.width / rect.width;
-                    const mouseX = (e.clientX - rect.left) * scaleFactor;
-                    const mouseY = (e.clientY - rect.top) * scaleFactor;
-
-                    const dropAngle = Math.atan2(mouseY - circle.y, mouseX - circle.x);
-                    const colorHex = ponyColorInput.value;
-                    const alpha = parseFloat(beadAlphaSlider.value);
-                    const colorRgba = hexToRgba(colorHex, alpha);
-                    const char = letterInput.value.slice(0, 1) || 'A';
-
-                    const level = parseInt(beadLevelSlider.value);
-                    const finish = finishTypeSelect.value;
-                    const sizeScale = sizeLevelScaleMap[level];
-
+                if (droppedOnTray) {
+                    // 从珠子库直接拖到小托盘：存入托盘，不放上画布
                     saveState();
-
-                    const newId = Date.now() + Math.random();
-
                     if (draggingState.mode === 'NEW_CHARM') {
-                        beadsOnString.push({
-                            id: newId,
+                        sidePlateBeads.push({
                             type: 'custom-charm',
-                            angle: dropAngle,
-                            x: circle.x + circle.radius * Math.cos(dropAngle),
-                            y: circle.y + circle.radius * Math.sin(dropAngle),
-                            sizeLevel: level,
-                            scale: sizeScale,
+                            sizeLevel: 4,
+                            scale: sizeLevelScaleMap[4],
                             charmImg: draggingState.charmObj.img,
                             charmOffset: parseInt(charmOffsetSlider.value) || 70,
                             rotation: 0
                         });
                     } else {
-                        beadsOnString.push({
-                            id: newId,
+                        const colorHex = ponyColorInput.value;
+                        const alpha = parseFloat(beadAlphaSlider.value);
+                        const level = 4;
+                        sidePlateBeads.push({
                             type: draggingState.type,
-                            angle: dropAngle,
-                            x: circle.x + circle.radius * Math.cos(dropAngle),
-                            y: circle.y + circle.radius * Math.sin(dropAngle),
-                            color: colorRgba,
+                            color: hexToRgba(colorHex, alpha),
                             colorHex: colorHex,
                             alpha: alpha,
                             bgColor: beadBgColorInput.value,
                             textColor: textColorInput.value,
-                            text: char,
-                            finish: finish,
+                            text: letterInput.value.slice(0, 1) || 'A',
+                            finish: finishTypeSelect.value,
                             sizeLevel: level,
-                            scale: sizeScale,
+                            scale: sizeLevelScaleMap[level],
                             rotation: 0
                         });
                     }
+                    renderSidePlate();
+                } else {
+                    const rect = canvas.getBoundingClientRect();
+                    if (e.clientX >= rect.left && e.clientX <= rect.right &&
+                        e.clientY >= rect.top && e.clientY <= rect.bottom) {
 
+                        const scaleFactor = canvas.width / rect.width;
+                        const mouseX = (e.clientX - rect.left) * scaleFactor;
+                        const mouseY = (e.clientY - rect.top) * scaleFactor;
+
+                        const dropAngle = Math.atan2(mouseY - circle.y, mouseX - circle.x);
+                        const colorHex = ponyColorInput.value;
+                        const alpha = parseFloat(beadAlphaSlider.value);
+                        const colorRgba = hexToRgba(colorHex, alpha);
+                        addRecentColor(colorHex);
+                        const char = letterInput.value.slice(0, 1) || 'A';
+
+                        // 珠子库中的每次新建都固定从 4 号尺寸开始，不继承上一个珠子的尺寸。
+                        const level = 4;
+                        const finish = finishTypeSelect.value;
+                        const sizeScale = sizeLevelScaleMap[4];
+
+                        saveState();
+
+                        const newId = Date.now() + Math.random();
+
+                        if (draggingState.mode === 'NEW_CHARM') {
+                            beadsOnString.push({
+                                id: newId,
+                                type: 'custom-charm',
+                                angle: dropAngle,
+                                x: circle.x + circle.radius * Math.cos(dropAngle),
+                                y: circle.y + circle.radius * Math.sin(dropAngle),
+                                sizeLevel: 4,
+                                scale: sizeLevelScaleMap[4],
+                                charmImg: draggingState.charmObj.img,
+                                charmOffset: parseInt(charmOffsetSlider.value) || 70,
+                                rotation: 0
+                            });
+                        } else {
+                            beadsOnString.push({
+                                id: newId,
+                                type: draggingState.type,
+                                angle: dropAngle,
+                                x: circle.x + circle.radius * Math.cos(dropAngle),
+                                y: circle.y + circle.radius * Math.sin(dropAngle),
+                                color: colorRgba,
+                                colorHex: colorHex,
+                                alpha: alpha,
+                                bgColor: beadBgColorInput.value,
+                                textColor: textColorInput.value,
+                                text: char,
+                                finish: finish,
+                                sizeLevel: level,
+                                scale: sizeScale,
+                                rotation: 0
+                            });
+                        }
+
+                        beadsOnString.sort((a, b) => a.angle - b.angle);
+
+                        selectedBeadIds.clear();
+                        selectedBeadIds.add(newId);
+                        updateSelectionUI();
+                        autoSaveLastDesign();
+                    }
+                }
+            } else if (draggingState.mode === 'FROM_TRAY') {
+                dragGhost.style.display = 'none';
+                dragGhost.innerHTML = '';
+
+                const rect = canvas.getBoundingClientRect();
+                if (!droppedOnTray && e.clientX >= rect.left && e.clientX <= rect.right &&
+                    e.clientY >= rect.top && e.clientY <= rect.bottom) {
+
+                    const scaleFactor = canvas.width / rect.width;
+                    const mouseX = (e.clientX - rect.left) * scaleFactor;
+                    const mouseY = (e.clientY - rect.top) * scaleFactor;
+                    const dropAngle = Math.atan2(mouseY - circle.y, mouseX - circle.x);
+
+                    saveState();
+                    const beadData = draggingState.beadData;
+                    const newId = Date.now() + Math.random();
+                    const newBead = {
+                        ...beadData,
+                        id: newId,
+                        angle: dropAngle,
+                        x: circle.x + circle.radius * Math.cos(dropAngle),
+                        y: circle.y + circle.radius * Math.sin(dropAngle)
+                    };
+                    beadsOnString.push(newBead);
                     beadsOnString.sort((a, b) => a.angle - b.angle);
+
+                    // 从托盘中移除已放回画布的珠子
+                    sidePlateBeads.splice(draggingState.trayIndex, 1);
+                    renderSidePlate();
 
                     selectedBeadIds.clear();
                     selectedBeadIds.add(newId);
+                    updateSelectionUI();
+                    autoSaveLastDesign();
+                }
+                // 若未成功放到画布上（包括放回托盘或松手在其他区域），珠子保留在托盘中，不做改动
+            } else if (draggingState.mode === 'EXISTING_TRACK' || draggingState.mode === 'EXISTING_FREE') {
+                const bead = beadsOnString.find(b => b.id === draggingState.beadId);
+                if (bead) {
+                    if (droppedOnTray) {
+                        saveState();
+                        const { id, angle, x, y, ...trayBead } = bead;
+                        sidePlateBeads.push(trayBead);
+                        beadsOnString = beadsOnString.filter(b => b.id !== bead.id);
+                        selectedBeadIds.delete(bead.id);
+                        renderSidePlate();
+                    } else {
+                        // 松开后吸附到距离当前位置最近的轨迹点。
+                        const snapAngle = Math.atan2(bead.y - circle.y, bead.x - circle.x);
+                        saveState();
+                        bead.angle = snapAngle;
+                        bead.x = circle.x + circle.radius * Math.cos(snapAngle);
+                        bead.y = circle.y + circle.radius * Math.sin(snapAngle);
+                        beadsOnString.sort((a, b) => a.angle - b.angle);
+                    }
+                    drawScene();
+                    updateContextMenuPosition();
                     updateSelectionUI();
                     autoSaveLastDesign();
                 }
