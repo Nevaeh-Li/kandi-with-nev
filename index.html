@@ -15,7 +15,8 @@
             --danger-color: #ff4d4f;
             --primary-color: #4a90e2;
             --export-color: #52c41a;
-            --header-height: 70px;
+            --header-height: 90px;
+            --yellow-slider: #fcba03;
         }
 
         body {
@@ -36,21 +37,43 @@
             background-color: #1a1a1a;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 20;
             flex-shrink: 0;
+            gap: 4px;
         }
 
         .main-header-title {
             margin: 0;
             font-family: 'Kirang Haerang', cursive;
-            font-size: 2.5rem;
+            font-size: calc(2.2rem + 2pt);
             letter-spacing: 2px;
             text-align: center;
+            line-height: 1;
             background: linear-gradient(90deg, #ff4d4f, #ff7a45, #ffc53d, #73d13d, #36cfc9, #4096ff, #9254de);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        .header-subtext {
+            color: #ccc;
+            font-size: 0.85rem;
+            margin: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .header-link {
+            color: #ccc;
+            text-decoration: underline;
+            text-decoration-color: rgba(204, 204, 204, 0.5);
+            transition: color 0.2s;
+        }
+
+        .header-link:hover {
+            color: #ffffff;
+            text-decoration-color: #ffffff;
         }
 
         #main-container {
@@ -61,7 +84,8 @@
         }
 
         #sidebar {
-            width: 340px;
+            width: var(--sidebar-width, 340px);
+            flex-shrink: 0;
             background-color: var(--panel-bg);
             box-shadow: 2px 0 12px rgba(0,0,0,0.06);
             padding: 20px;
@@ -69,16 +93,98 @@
             flex-direction: column;
             gap: 15px;
             z-index: 10;
+            height: 100%;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        #sidebar-resize-handle {
+            position: absolute;
+            top: 0;
+            right: -4px;
+            width: 8px;
+            height: 100%;
+            cursor: col-resize;
+            z-index: 15;
+            background: transparent;
+        }
+
+        #sidebar-resize-handle:hover,
+        #sidebar-resize-handle.dragging {
+            background: rgba(74, 144, 226, 0.25);
+        }
+
+        body.sidebar-resizing {
+            cursor: col-resize !important;
+            user-select: none !important;
+        }
+
+        body.sidebar-resizing * {
+            user-select: none !important;
+        }
+
+        .sidebar-scroll-area {
+            flex: 1;
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding-right: 4px;
+        }
+
+        .welcome-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2px;
         }
 
         .welcome-title {
-            margin: 0 0 5px 0;
+            margin: 0;
             font-size: 1.6rem;
             font-family: 'Fredoka', cursive, sans-serif;
             font-weight: 700;
             color: #333;
             letter-spacing: 1px;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .lang-opt {
+            cursor: pointer;
+            color: #888;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .lang-opt.active {
+            color: var(--primary-color);
+            background: #e6f7ff;
+        }
+
+        .welcome-desc {
+            font-size: 0.85rem;
+            font-weight: normal;
+            color: #333;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre-line;
+            background: transparent;
+            padding: 0;
+            border-radius: 0;
+            border: none;
+        }
+
+        .welcome-divider {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 10px 0 5px 0;
         }
 
         .section {
@@ -172,11 +278,7 @@
 
         input[type="range"] {
             width: 100%;
-            accent-color: var(--accent-color);
-        }
-
-        #radiusSlider, #beadLevelSlider, #charmOffsetSlider {
-            accent-color: #fcba03;
+            accent-color: var(--yellow-slider);
         }
 
         .size-ticks {
@@ -200,12 +302,12 @@
         }
 
         .size-ticks .tick:hover {
-            color: #fcba03;
+            color: var(--yellow-slider);
         }
 
         .size-ticks .tick.active {
             color: #fff;
-            background: #fcba03;
+            background: var(--yellow-slider);
         }
 
         .toggle-container {
@@ -226,7 +328,7 @@
 
         .toggle-option.active {
             background: #fff;
-            color: #fcba03;
+            color: var(--yellow-slider);
             font-weight: bold;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
@@ -275,6 +377,48 @@
             max-width: 100%;
         }
 
+        .finish-options {
+            display: flex;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .finish-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 6px 4px 5px 4px;
+            border-radius: 8px;
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .finish-item:hover {
+            background: #f0f7ff;
+            border-color: #bae7ff;
+        }
+
+        .finish-item.active {
+            background: #e6f7ff;
+            border-color: var(--primary-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        }
+
+        .finish-item span {
+            font-size: 0.62rem;
+            color: #666;
+            margin-top: 4px;
+            text-align: center;
+        }
+
+        .finish-item.active span {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
         .btn {
             background: var(--accent-color);
             color: white;
@@ -295,7 +439,9 @@
         .action-group {
             display: flex;
             gap: 10px;
-            margin-top: auto;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+            flex-shrink: 0;
         }
         .btn-export-short {
             flex: 1;
@@ -458,62 +604,156 @@
             color: #333;
         }
 
-        /* 设计项目管理列表样式 */
-        .design-list-container {
-            max-height: 140px;
-            overflow-y: auto;
-            background: #fff;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            margin-top: 8px;
+        .save-widget-container {
+            position: absolute;
+            top: 25px;
+            left: 0;
+            z-index: 120;
             display: flex;
             flex-direction: column;
-            gap: 4px;
-            padding: 4px;
+            align-items: flex-start;
         }
 
-        .design-item {
+        .save-tab-btn {
+            background: var(--export-color);
+            color: #ffffff;
+            border: 1px solid var(--export-color);
+            border-left: none;
+            padding: 10px 14px;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.12);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .save-tab-btn:hover {
+            opacity: 0.9;
+        }
+
+        .save-dropdown {
+            display: none;
+            margin-top: 8px;
+            margin-left: 10px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            border: 1px solid #e8e8e8;
+            padding: 10px;
+            width: 230px;
+            flex-direction: column;
+            gap: 8px;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .save-dropdown.open {
+            display: flex;
+        }
+
+        .slot-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 6px 8px;
-            background: #fdfdfd;
-            border-radius: 6px;
-            border: 1px solid #f0f0f0;
+            background: #fcfcfc;
+            border: 1px dashed #d9d9d9;
+            border-radius: 8px;
+            padding: 8px 10px;
+            transition: all 0.2s;
+        }
+
+        .slot-item.has-data {
+            border-style: solid;
+            border-color: #bae7ff;
+            background: #e6f7ff;
+        }
+
+        .slot-item:hover {
+            border-color: var(--primary-color);
+        }
+
+        .slot-info {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex: 1;
+            margin-right: 6px;
+            cursor: pointer;
+        }
+
+        .slot-name {
             font-size: 0.8rem;
-        }
-
-        .design-item:hover {
-            background: #f5f5f5;
-        }
-
-        .design-item .title-text {
             font-weight: bold;
             color: #333;
+            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: nowrap;
-            max-width: 140px;
         }
 
-        .design-item-actions {
+        .slot-name-input {
+            font-size: 0.8rem;
+            font-weight: bold;
+            width: 90%;
+            padding: 2px 4px;
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+        }
+
+        .slot-time {
+            font-size: 0.65rem;
+            color: #888;
+        }
+
+        .slot-actions {
             display: flex;
             gap: 4px;
+            align-items: center;
         }
 
         .btn-mini {
-            padding: 2px 6px;
-            font-size: 0.7rem;
-            border-radius: 4px;
             border: none;
-            cursor: pointer;
             color: white;
+            padding: 4px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s;
         }
-        .btn-mini.load { background: var(--primary-color); }
-        .btn-mini.delete { background: var(--danger-color); }
+        .btn-mini:hover { opacity: 0.85; }
+
+        .btn-mini.btn-delete-slot {
+            background: var(--danger-color);
+            padding: 4px 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-add-slot {
+            background: #f5f5f5;
+            border: 1px dashed #ccc;
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-add-slot:hover {
+            background: #e6f7ff;
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(-5px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
@@ -521,195 +761,231 @@
 <body>
 
     <header>
-        <h1 class="main-header-title">KANDI WITH NEV</h1>
+        <h1 class="main-header-title" id="txtMainTitle">KANDI WITH NEV</h1>
+        <p class="header-subtext" id="txtSubTitle">小红书 @獭类生物Nev | @Nev獭（工作号）</p>
     </header>
 
     <div id="main-container">
         <div id="sidebar">
-            <h2 class="welcome-title">WELCOME!</h2>
-
-            <!-- 本地保存与设计库 -->
-            <div class="section">
-                <div class="section-title">本地存档</div>
-                <button class="btn btn-secondary" id="saveDesignBtn" style="width:100%; font-size: 0.85rem;">💾 保存当前设计</button>
-                <div class="design-list-container" id="designList">
-                    <!-- 列表将通过 JavaScript 动态渲染 -->
-                </div>
-            </div>
-
-            <div style="display:flex; flex-direction:column; gap:10px;">
-                <div class="control-row">
-                    <span style="font-size: 0.85rem; font-weight: bold;">画布背景颜色:</span>
-                    <div style="display: flex; gap: 8px; align-items: center;">
-                        <input type="color" id="canvasBgColor" value="#ffffff">
-                        <button class="icon-btn-square" id="bgToggleBtn" title="上传自定义背景图片">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                        </button>
+            <div id="sidebar-resize-handle"></div>
+            <div class="sidebar-scroll-area">
+                <div class="welcome-header">
+                    <h2 class="welcome-title">WELCOME!</h2>
+                    <div class="lang-switch">
+                        <span class="lang-opt" id="langENG">ENG</span>
+                        <span>/</span>
+                        <span class="lang-opt active" id="langZH">中文</span>
                     </div>
                 </div>
-                <input type="file" id="bgInput" class="hidden-input" accept="image/*">
-                <!-- 隐藏的中央图片上传 File Input -->
-                <input type="file" id="centerImageInput" class="hidden-input" accept="image/*">
+                <p class="welcome-desc" id="txtWelcomeDesc">欢迎来到Nev的Kandi Maker! 这是一个为了方便Kandi社区设计图案所开发的非盈利网站。本站由Nev一人独立运营，目前具备设计kandi的基础功能，未来或许会不定期更新。
+如果你想提出修改建议或支持本站，你可以在小红书 @獭类生物Nev 找到我。本站仅为个人使用。
+希望大家玩得开心！
+Peace Love Unity Respect ❤ - Nev</p>
+                <hr class="welcome-divider">
 
-                <div class="control-row">
-                    <span style="font-size: 0.85rem; font-weight: bold;">辅助线:</span>
-                    <div class="toggle-container">
-                        <div class="toggle-option active" id="toggleGuideOn">开启</div>
-                        <div class="toggle-option" id="toggleGuideOff">关闭</div>
-                    </div>
-                </div>
-
-                <div class="control-row">
-                    <span style="font-size: 0.85rem; font-weight: bold;">绳线颜色:</span>
-                    <div style="display: flex; align-items: center; gap: 6px;">
-                        <div class="toggle-container">
-                            <div class="toggle-option active" id="toggleStringOn">显示</div>
-                            <div class="toggle-option" id="toggleStringOff">隐藏</div>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <div class="control-row">
+                        <span style="font-size: 0.85rem; font-weight: bold;" id="lblCanvasBg">画布背景颜色:</span>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <input type="color" id="canvasBgColor" value="#ffffff">
+                            <button class="icon-btn-square" id="bgToggleBtn" title="上传自定义背景图片">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            </button>
                         </div>
-                        <input type="color" id="stringColor" value="#cccccc">
-                        <input type="range" id="stringAlphaSlider" min="0" max="1" step="0.05" value="1" style="width: 50px;" title="绳线透明度">
+                    </div>
+                    <input type="file" id="bgInput" class="hidden-input" accept="image/*">
+                    <input type="file" id="centerImageInput" class="hidden-input" accept="image/*">
+
+                    <div class="control-row">
+                        <span style="font-size: 0.85rem; font-weight: bold;" id="lblGuide">辅助线:</span>
+                        <div class="toggle-container">
+                            <div class="toggle-option active" id="toggleGuideOn">开启</div>
+                            <div class="toggle-option" id="toggleGuideOff">关闭</div>
+                        </div>
+                    </div>
+
+                    <div class="control-row">
+                        <span style="font-size: 0.85rem; font-weight: bold;" id="lblString">绳线颜色:</span>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <input type="color" id="stringColor" value="#cccccc">
+                            <input type="range" id="stringAlphaSlider" min="0" max="1" step="0.05" value="1" style="width: 50px;" title="绳线透明度">
+                            <div class="toggle-container">
+                                <div class="toggle-option active" id="toggleStringOn">显示</div>
+                                <div class="toggle-option" id="toggleStringOff">隐藏</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="control-row" style="margin-bottom: 4px;">
+                            <span style="font-size: 0.85rem; font-weight: bold;" id="lblBraceletSize">手链大小:</span>
+                        </div>
+                        <input type="range" id="radiusSlider" min="160" max="280" value="216">
                     </div>
                 </div>
 
-                <div>
-                    <div class="control-row" style="margin-bottom: 4px;">
-                        <span style="font-size: 0.85rem; font-weight: bold;">手链大小:</span>
-                    </div>
-                    <input type="range" id="radiusSlider" min="160" max="280" value="216">
-                </div>
-            </div>
+                <div class="section">
+                    <div class="section-title" id="lblBeadLib">珠子库</div>
 
-            <div class="section">
-                <div class="section-title">珠子库</div>
+                    <div class="control-row" style="align-items: center;">
+                        <span style="font-size: 0.8rem; font-weight:bold;" id="lblColorAlpha">颜色 & 透明度:</span>
+                        <div style="display: flex; align-items: center; gap: 6px; flex: 1; justify-content: flex-end;">
+                            <input type="color" id="ponyColor" value="#ff4646">
+                            <input type="range" id="beadAlphaSlider" min="0" max="1" step="0.05" value="1" style="width: 70px;" title="不透明度">
+                            <span id="beadAlphaVal" style="font-size:0.75rem; color:#666; width:30px; text-align:right;">100%</span>
+                        </div>
+                    </div>
 
-                <div class="control-row" style="align-items: center;">
-                    <span style="font-size: 0.8rem; font-weight:bold;">颜色 & 透明度:</span>
-                    <div style="display: flex; align-items: center; gap: 6px; flex: 1; justify-content: flex-end;">
-                        <input type="color" id="ponyColor" value="#ff4646">
-                        <input type="range" id="beadAlphaSlider" min="0" max="1" step="0.05" value="1" style="width: 70px;" title="不透明度">
-                        <span id="beadAlphaVal" style="font-size:0.75rem; color:#666; width:30px; text-align:right;">100%</span>
+                    <div class="control-row" style="margin-top:8px;">
+                        <span style="font-size: 0.8rem;" id="lblLetter">字母:</span>
+                        <input type="text" id="letterInput" maxlength="1" value="A">
                     </div>
-                </div>
+                    <div class="control-row">
+                        <span style="font-size: 0.8rem;" id="lblLetterBg">字母背景:</span>
+                        <input type="color" id="beadBgColor" value="#ffffff">
+                        <span style="font-size: 0.8rem;" id="lblTextColor">文字色:</span>
+                        <input type="color" id="textColor" value="#000000">
+                    </div>
 
-                <div class="control-row" style="margin-top:8px;">
-                    <span style="font-size: 0.8rem;">字母 (双击珠子修改):</span>
-                    <input type="text" id="letterInput" maxlength="1" value="A">
-                </div>
-                <div class="control-row">
-                    <span style="font-size: 0.8rem;">字母背景:</span>
-                    <input type="color" id="beadBgColor" value="#ffffff">
-                    <span style="font-size: 0.8rem;">文字色:</span>
-                    <input type="color" id="textColor" value="#000000">
-                </div>
-
-                <div class="bead-grid" style="margin-top: 10px;">
-                    <div class="bead-item draggable-bead" data-type="pony">
-                        <svg width="24" height="24" viewBox="0 0 30 30"><rect id="prevPony" x="6" y="3" width="18" height="24" rx="5" fill="#ff4646"/></svg>
-                        <span>默认</span>
+                    <div class="bead-grid" style="margin-top: 10px;">
+                        <div class="bead-item draggable-bead" data-type="pony">
+                            <svg width="24" height="24" viewBox="0 0 30 30"><rect id="prevPony" x="6" y="3" width="18" height="24" rx="5" fill="#ff4646"/></svg>
+                            <span class="bead-name-default">默认</span>
+                        </div>
+                        <div class="bead-item draggable-bead" data-type="seed">
+                            <svg width="24" height="24" viewBox="0 0 30 30"><circle id="prevSeed" cx="15" cy="15" r="5.5" fill="#ff4646"/></svg>
+                            <span class="bead-name-seed">米珠</span>
+                        </div>
+                        <div class="bead-item draggable-bead" data-type="mini-pony">
+                            <svg width="24" height="24" viewBox="0 0 30 30"><rect id="prevMiniPony" x="10.5" y="9" width="9" height="12" rx="2.5" fill="#ff4646"/></svg>
+                            <span class="bead-name-minipony">小方</span>
+                        </div>
+                        <div class="bead-item draggable-bead" data-type="round">
+                            <svg width="24" height="24" viewBox="0 0 30 30"><circle id="prevRound" cx="15" cy="15" r="11" fill="#ff4646"/></svg>
+                            <span class="bead-name-round">圆珠</span>
+                        </div>
+                        <div class="bead-item draggable-bead" data-type="slim">
+                            <svg width="24" height="24" viewBox="0 0 30 30"><rect id="prevSlim" x="10" y="3" width="10" height="24" rx="3" fill="#ff4646"/></svg>
+                            <span class="bead-name-slim">扁珠</span>
+                        </div>
+                        <div class="bead-item draggable-bead" data-type="ellipse">
+                            <svg width="24" height="24" viewBox="0 0 30 30"><path id="prevEllipse" d="M 15 2 C 22 9, 22 21, 15 28 C 8 21, 8 9, 15 2 Z" fill="#ff4646"/></svg>
+                            <span class="bead-name-ellipse">椭圆</span>
+                        </div>
+                        <div class="bead-item draggable-bead" data-type="heart">
+                            <svg width="24" height="24" viewBox="0 0 30 30"><path id="prevHeart" d="M 15 25 C 15 25 4 17 4 10 C 4 6 7 3 11 3 C 13.5 3 15 5 15 5 C 15 5 16.5 3 19 3 C 23 3 26 6 26 10 C 26 17 15 25 15 25 Z" fill="#ff4646"/></svg>
+                            <span class="bead-name-heart">心</span>
+                        </div>
+                        <div class="bead-item draggable-bead" data-type="star">
+                            <svg width="24" height="24" viewBox="0 0 30 30"><path id="prevStar" d="M 15 1 L 19.8 11.5 L 31 12.8 L 22.3 20.3 L 25 31.5 L 15 25.2 L 5 31.5 L 7.7 20.3 L -1 12.8 L 10.2 11.5 Z" fill="#ff4646" stroke="#ff4646" stroke-width="2" stroke-linejoin="round" transform="scale(0.85) translate(2,2)"/></svg>
+                            <span class="bead-name-star">星星</span>
+                        </div>
+                        <div class="bead-item draggable-bead" data-type="circle-letter">
+                            <svg width="24" height="24" viewBox="0 0 30 30">
+                                <g id="prevCircleGroup">
+                                    <circle id="prevCircleBg" cx="15" cy="15" r="12" fill="#ffffff" stroke="#ddd"/>
+                                    <text id="prevCircleTxt" x="15" y="21" font-family="'Fredoka', sans-serif" font-weight="bold" font-size="15" text-anchor="middle" fill="#000">A</text>
+                                </g>
+                            </svg>
+                            <span class="bead-name-circletxt">圆字母</span>
+                        </div>
+                        <div class="bead-item draggable-bead" data-type="square-letter">
+                            <svg width="24" height="24" viewBox="0 0 30 30">
+                                <g id="prevSquareGroup">
+                                    <rect id="prevSquareBg" x="4" y="4" width="22" height="22" rx="4" fill="#ffffff" stroke="#ddd"/>
+                                    <text id="prevSquareTxt" x="15" y="21" font-family="'Fredoka', sans-serif" font-weight="bold" font-size="15" text-anchor="middle" fill="#000">A</text>
+                                </g>
+                            </svg>
+                            <span class="bead-name-squaretxt">方字母</span>
+                        </div>
                     </div>
-                    <div class="bead-item draggable-bead" data-type="seed">
-                        <svg width="24" height="24" viewBox="0 0 30 30"><circle id="prevSeed" cx="15" cy="15" r="5.5" fill="#ff4646"/></svg>
-                        <span>米珠</span>
-                    </div>
-                    <div class="bead-item draggable-bead" data-type="mini-pony">
-                        <svg width="24" height="24" viewBox="0 0 30 30"><rect id="prevMiniPony" x="10.5" y="9" width="9" height="12" rx="2.5" fill="#ff4646"/></svg>
-                        <span>小方</span>
-                    </div>
-                    <div class="bead-item draggable-bead" data-type="round">
-                        <svg width="24" height="24" viewBox="0 0 30 30"><circle id="prevRound" cx="15" cy="15" r="11" fill="#ff4646"/></svg>
-                        <span>圆珠</span>
-                    </div>
-                    <div class="bead-item draggable-bead" data-type="slim">
-                        <svg width="24" height="24" viewBox="0 0 30 30"><rect id="prevSlim" x="10" y="3" width="10" height="24" rx="3" fill="#ff4646"/></svg>
-                        <span>扁珠</span>
-                    </div>
-                    <div class="bead-item draggable-bead" data-type="ellipse">
-                        <svg width="24" height="24" viewBox="0 0 30 30"><path id="prevEllipse" d="M 15 2 C 22 9, 22 21, 15 28 C 8 21, 8 9, 15 2 Z" fill="#ff4646"/></svg>
-                        <span>椭圆</span>
-                    </div>
-                    <div class="bead-item draggable-bead" data-type="heart">
-                        <svg width="24" height="24" viewBox="0 0 30 30"><path id="prevHeart" d="M 15 25 C 15 25 4 17 4 10 C 4 6 7 3 11 3 C 13.5 3 15 5 15 5 C 15 5 16.5 3 19 3 C 23 3 26 6 26 10 C 26 17 15 25 15 25 Z" fill="#ff4646"/></svg>
-                        <span>心</span>
-                    </div>
-                    <div class="bead-item draggable-bead" data-type="star">
-                        <svg width="24" height="24" viewBox="0 0 30 30"><path id="prevStar" d="M 15 1 L 19.8 11.5 L 31 12.8 L 22.3 20.3 L 25 31.5 L 15 25.2 L 5 31.5 L 7.7 20.3 L -1 12.8 L 10.2 11.5 Z" fill="#ff4646" stroke="#ff4646" stroke-width="2" stroke-linejoin="round" transform="scale(0.85) translate(2,2)"/></svg>
-                        <span>星星</span>
-                    </div>
-                    <div class="bead-item draggable-bead" data-type="circle-letter">
-                        <svg width="24" height="24" viewBox="0 0 30 30">
-                            <g id="prevCircleGroup">
-                                <circle id="prevCircleBg" cx="15" cy="15" r="12" fill="#ffffff" stroke="#ddd"/>
-                                <text id="prevCircleTxt" x="15" y="21" font-family="'Fredoka', sans-serif" font-weight="bold" font-size="15" text-anchor="middle" fill="#000">A</text>
-                            </g>
-                        </svg>
-                        <span>圆字母</span>
-                    </div>
-                    <div class="bead-item draggable-bead" data-type="square-letter">
-                        <svg width="24" height="24" viewBox="0 0 30 30">
-                            <g id="prevSquareGroup">
-                                <rect id="prevSquareBg" x="4" y="4" width="22" height="22" rx="4" fill="#ffffff" stroke="#ddd"/>
-                                <text id="prevSquareTxt" x="15" y="21" font-family="'Fredoka', sans-serif" font-weight="bold" font-size="15" text-anchor="middle" fill="#000">A</text>
-                            </g>
-                        </svg>
-                        <span>方字母</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="control-row">
-                    <label style="margin:0; font-size:0.9rem;">属性编辑</label>
-                    <span id="selectionBadge" class="selected-badge" style="display:none;">未选中</span>
                 </div>
 
-                <div class="control-row" style="margin-top: 10px;">
-                    <span style="font-size: 0.8rem;">尺寸:</span>
-                </div>
-                <input type="range" id="beadLevelSlider" min="1" max="7" step="1" value="4">
-                <div class="size-ticks" id="beadLevelTicks">
-                    <span class="tick" data-level="1">1</span>
-                    <span class="tick" data-level="2">2</span>
-                    <span class="tick" data-level="3">3</span>
-                    <span class="tick" data-level="4">4</span>
-                    <span class="tick" data-level="5">5</span>
-                    <span class="tick" data-level="6">6</span>
-                    <span class="tick" data-level="7">7</span>
-                </div>
-
-                <div id="charmOffsetRow" class="control-row" style="margin-top: 8px; display: none; flex-direction: column; align-items: flex-start;">
-                    <div style="display: flex; justify-content: space-between; width: 100%;">
-                        <span style="font-size: 0.8rem;">挂件偏置距离:</span>
-                        <span id="charmOffsetVal" style="font-size:0.75rem; color:#888;">70</span>
+                <div class="section">
+                    <div class="control-row">
+                        <label style="margin:0; font-size:0.9rem;" id="lblAttrEdit">属性编辑</label>
+                        <span id="selectionBadge" class="selected-badge" style="display:none;">未选中</span>
                     </div>
-                    <input type="range" id="charmOffsetSlider" min="20" max="180" value="70">
+
+                    <div class="control-row" style="margin-top: 10px;">
+                        <span style="font-size: 0.8rem;" id="lblSize">尺寸:</span>
+                    </div>
+                    <input type="range" id="beadLevelSlider" min="1" max="7" step="1" value="4">
+                    <div class="size-ticks" id="beadLevelTicks">
+                        <span class="tick" data-level="1">1</span>
+                        <span class="tick" data-level="2">2</span>
+                        <span class="tick" data-level="3">3</span>
+                        <span class="tick" data-level="4">4</span>
+                        <span class="tick" data-level="5">5</span>
+                        <span class="tick" data-level="6">6</span>
+                        <span class="tick" data-level="7">7</span>
+                    </div>
+
+                    <div id="charmOffsetRow" class="control-row" style="margin-top: 8px; display: none; flex-direction: column; align-items: flex-start;">
+                        <div style="display: flex; justify-content: space-between; width: 100%;">
+                            <span style="font-size: 0.8rem;" id="lblCharmOffset">挂件偏置距离:</span>
+                            <span id="charmOffsetVal" style="font-size:0.75rem; color:#888;">70</span>
+                        </div>
+                        <input type="range" id="charmOffsetSlider" min="20" max="180" value="70">
+                    </div>
+
+                    <div class="control-row" style="margin-top: 8px; align-items:flex-start; flex-direction:column;">
+                        <span style="font-size: 0.8rem;" id="lblFinish">质地:</span>
+                        <div class="finish-options" id="finishOptions">
+                            <div class="finish-item active" data-finish="glossy">
+                                <svg width="30" height="30" viewBox="0 0 30 30">
+                                    <defs>
+                                        <radialGradient id="finishSwatchGlossy" cx="35%" cy="30%" r="70%">
+                                            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+                                            <stop offset="35%" stop-color="#ff9aa8" stop-opacity="0.5"/>
+                                            <stop offset="100%" stop-color="#e0435d"/>
+                                        </radialGradient>
+                                    </defs>
+                                    <circle cx="15" cy="15" r="12" fill="url(#finishSwatchGlossy)" stroke="#c23a52" stroke-width="1"/>
+                                    <circle cx="10.5" cy="10.5" r="2.2" fill="rgba(255,255,255,0.9)"/>
+                                </svg>
+                                <span id="lblFinishGlossy">Glossy 光滑</span>
+                            </div>
+                            <div class="finish-item" data-finish="matte">
+                                <svg width="30" height="30" viewBox="0 0 30 30">
+                                    <defs>
+                                        <radialGradient id="finishSwatchMatte" cx="45%" cy="40%" r="70%">
+                                            <stop offset="0%" stop-color="#ffb3bf" stop-opacity="0.5"/>
+                                            <stop offset="80%" stop-color="#e8637a"/>
+                                            <stop offset="100%" stop-color="#c94f66"/>
+                                        </radialGradient>
+                                    </defs>
+                                    <circle cx="15" cy="15" r="12" fill="url(#finishSwatchMatte)" stroke="#b04861" stroke-width="1"/>
+                                </svg>
+                                <span id="lblFinishMatte">Matte 哑光</span>
+                            </div>
+                            <div class="finish-item" data-finish="glassy">
+                                <svg width="30" height="30" viewBox="0 0 30 30">
+                                    <defs>
+                                        <linearGradient id="finishSwatchGlassy" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+                                            <stop offset="25%" stop-color="#ffd6dc" stop-opacity="0.6"/>
+                                            <stop offset="55%" stop-color="#ff8fa3"/>
+                                            <stop offset="80%" stop-color="#ffffff" stop-opacity="0.5"/>
+                                            <stop offset="100%" stop-color="#c23a52"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <circle cx="15" cy="15" r="12" fill="url(#finishSwatchGlassy)" stroke="#c23a52" stroke-width="1"/>
+                                    <ellipse cx="11" cy="9.5" rx="3" ry="1.2" fill="rgba(255,255,255,0.95)" transform="rotate(-45 11 9.5)"/>
+                                </svg>
+                                <span id="lblFinishGlassy">Glassy 玻璃</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="control-row" style="margin-top: 8px;">
-                    <span style="font-size: 0.8rem;">质地:</span>
-                    <select id="finishType">
-                        <option value="glossy">Glossy 光滑</option>
-                        <option value="matte">Matte 哑光</option>
-                        <option value="glassy">Glassy 玻璃</option>
-                    </select>
+                <div class="section">
+                    <label style="font-size:0.9rem;" id="lblCustomCharms">自定义挂件 (Charms)</label>
+                    <button class="btn btn-secondary" id="uploadCharmBtn" style="width:100%;">上传新挂件</button>
+                    <input type="file" id="charmInput" class="hidden-input" accept="image/*" multiple>
+                    
+                    <div class="charm-gallery" id="charmGallery" style="display:flex;"></div>
                 </div>
-
-                <div class="control-row" style="margin-top: 8px;">
-                    <span style="font-size: 0.8rem;">旋转:</span>
-                    <select id="heartRotationSelect">
-                        <option value="0">0°</option>
-                        <option value="90">90°</option>
-                        <option value="180">180°</option>
-                        <option value="270">270°</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="section">
-                <label style="font-size:0.9rem;">自定义挂件 (Charms)</label>
-                <button class="btn btn-secondary" id="uploadCharmBtn" style="width:100%;">上传新挂件</button>
-                <input type="file" id="charmInput" class="hidden-input" accept="image/*" multiple>
-                
-                <div class="charm-gallery" id="charmGallery" style="display:flex;"></div>
             </div>
 
             <div class="action-group">
@@ -721,6 +997,17 @@
         </div>
 
         <div id="workspace">
+            <div class="save-widget-container">
+                <button class="save-tab-btn" id="saveTabBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                    <span id="txtSaveBtn">保存设计</span>
+                </button>
+                <div class="save-dropdown" id="saveDropdown">
+                    <div id="slotList" style="display: flex; flex-direction: column; gap: 6px;"></div>
+                    <div class="btn-add-slot" id="addSlotBtn">+ 新增存档</div>
+                </div>
+            </div>
+
             <canvas id="stringCanvas" width="800" height="800"></canvas>
             <div id="beadContextMenu">
                 <button class="menu-copy" id="menuCopyBtn">📋 复制</button>
@@ -729,11 +1016,11 @@
 
             <div class="info-toast" id="infoToast">
                 <div class="info-toast-header">
-                    <span>💡 操作提示</span>
+                    <span id="lblToastHeader">💡 操作提示</span>
                     <button class="info-toast-close" id="closeToastBtn">&times;</button>
                 </div>
-                <div>• Ctrl+Z 撤回上一步</div>
-                <div>• 双击字母珠可修改内容</div>
+                <div id="lblToast1">• Ctrl+Z 撤回上一步</div>
+                <div id="lblToast2">• 双击字母珠可修改内容</div>
             </div>
         </div>
     </div>
@@ -756,6 +1043,7 @@
         const imageScale = 1.0; 
         let showGuideLines = true;
         let showStringLine = true;
+        let currentLang = 'ZH'; // 默认中文
 
         let selectionBox = null; 
         let historyStack = [];
@@ -764,6 +1052,188 @@
         const sizeLevelScaleMap = {
             1: 1.8, 2: 2.5, 3: 3.2, 4: 4.0, 5: 4.8, 6: 5.6, 7: 6.5
         };
+
+        // 语言字典配置
+        const i18n = {
+            ZH: {
+                mainTitle: "KANDI WITH NEV",
+                subTitleHtml: `小红书 @獭类生物Nev | @Nev獭（工作号）`,
+                welcomeDesc: `欢迎来到Nev的Kandi Maker! 这是一个为了方便Kandi社区设计图案所开发的非盈利网站。本站由Nev一人独立运营，目前具备设计kandi的基础功能，未来或许会不定期更新。\n如果你想提出修改建议或支持本站，你可以在小红书 @獭类生物Nev 找到我。本站仅为个人使用。\n希望大家玩得开心！\nPeace Love Unity Respect ❤ - Nev`,
+                canvasBg: "画布背景颜色:",
+                guide: "辅助线:",
+                toggleOn: "开启",
+                toggleOff: "关闭",
+                stringColor: "绳线颜色:",
+                show: "显示",
+                hide: "隐藏",
+                braceletSize: "手链大小:",
+                beadLib: "珠子库",
+                colorAlpha: "颜色 & 透明度:",
+                letter: "字母:",
+                letterBg: "字母背景:",
+                textColor: "文字色:",
+                beadDefault: "默认",
+                beadSeed: "米珠",
+                beadMiniPony: "小方",
+                beadRound: "圆珠",
+                beadSlim: "扁珠",
+                beadEllipse: "椭圆",
+                beadHeart: "心",
+                beadStar: "星星",
+                beadCircleTxt: "Text (C)",
+                beadSquareTxt: "Text (S)",
+                attrEdit: "属性编辑",
+                unselected: "未选中",
+                editCharm: "编辑挂件",
+                editBead: "编辑珠子",
+                selectedCount: "已选中 {n} 项",
+                size: "尺寸:",
+                charmOffset: "挂件偏置距离:",
+                finish: "质地:",
+                finishGlossy: "Glossy 光滑",
+                finishMatte: "Matte 哑光",
+                finishGlassy: "Glassy 玻璃",
+                customCharms: "自定义挂件 (Charms)",
+                uploadCharm: "上传新挂件",
+                exportImg: "导出图片",
+                clearTitle: "清空设计",
+                saveDesign: "保存设计",
+                addSlot: "+ 新增存档",
+                toastHeader: "💡 操作提示",
+                toast1: "• Ctrl+Z 撤回上一步",
+                toast2: "• 双击字母珠可修改内容",
+                uploadText: "点击此处上传图片",
+                rotateText: ["拖拽", "此侧", "旋转"],
+                cover: "覆盖",
+                save: "保存",
+                load: "读取",
+                emptySlot: "空白存档",
+                defaultSlotName: "存档槽位 ",
+                confirmClear: "确认清空设计？",
+                inputPrompt: "输入字母/字符 (单字):"
+            },
+            ENG: {
+                mainTitle: "KANDI WITH NEV",
+                subTitleHtml: `FIND ME ON: <a href="https://www.instagram.com/nevaeh.li/" target="_blank" rel="noopener noreferrer" class="header-link">Instagram</a> | <a href="https://ko-fi.com/nevtheotter" target="_blank" rel="noopener noreferrer" class="header-link">Ko-fi</a> | <a href="https://www.nevaehli.com" target="_blank" rel="noopener noreferrer" class="header-link">Portfolio</a>`,
+                welcomeDesc: `Welcome to Nev's Kandi Maker!\nThis is a non-profit website made for the Kandi community to create kandi designs online. This site is run independently by Nev. As of now, the site has everything fundamental for designing your own kandi, but more features may be added in the future.\nIf you'd like to support me or provide feedback, you can find me through the header links :) Note that this site is for personal use only.\nHave fun!\nPeace Love Unity Respect ❤ - Nev`,
+                canvasBg: "Canvas Background:",
+                guide: "Line Assist:",
+                toggleOn: "ON",
+                toggleOff: "OFF",
+                stringColor: "String Color:",
+                show: "Show",
+                hide: "Hide",
+                braceletSize: "Bracelet Size:",
+                beadLib: "Beads Inventory",
+                colorAlpha: "Color & Alpha:",
+                letter: "Letter:",
+                letterBg: "Letter BG:",
+                textColor: "Text Color:",
+                beadDefault: "Pony",
+                beadSeed: "Seed",
+                beadMiniPony: "Mini",
+                beadRound: "Round",
+                beadSlim: "Slim",
+                beadEllipse: "Ellipse",
+                beadHeart: "Heart",
+                beadStar: "Star",
+                beadCircleTxt: "Text (C)",
+                beadSquareTxt: "Text (S)",
+                attrEdit: "Attributes",
+                unselected: "None Selected",
+                editCharm: "Edit Charm",
+                editBead: "Edit Bead",
+                selectedCount: "{n} Selected",
+                size: "Size:",
+                charmOffset: "Charm Distance:",
+                finish: "Finish:",
+                finishGlossy: "Glossy",
+                finishMatte: "Matte",
+                finishGlassy: "Glassy",
+                customCharms: "Custom Charms",
+                uploadCharm: "Upload Charm",
+                exportImg: "Export PNG",
+                clearTitle: "Clear All",
+                saveDesign: "Save",
+                addSlot: "+ New Save Slot",
+                toastHeader: "💡 Quick Tips",
+                toast1: "• Ctrl+Z to Undo",
+                toast2: "• Double-click letter beads to edit",
+                uploadText: "Click here to upload image",
+                rotateText: ["Drag", "Here To", "Rotate"],
+                cover: "Overwrite",
+                save: "Save",
+                load: "Load",
+                emptySlot: "Empty Save",
+                defaultSlotName: "Design ",
+                confirmClear: "Are you sure you want to clear all?",
+                inputPrompt: "Enter letter/character (1 char):"
+            }
+        };
+
+        const langZH = document.getElementById('langZH');
+        const langENG = document.getElementById('langENG');
+
+        langZH.addEventListener('click', () => switchLanguage('ZH'));
+        langENG.addEventListener('click', () => switchLanguage('ENG'));
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            langZH.classList.toggle('active', lang === 'ZH');
+            langENG.classList.toggle('active', lang === 'ENG');
+
+            const t = i18n[lang];
+            document.getElementById('txtMainTitle').textContent = t.mainTitle;
+            document.getElementById('txtSubTitle').innerHTML = t.subTitleHtml;
+            document.getElementById('txtWelcomeDesc').textContent = t.welcomeDesc;
+            document.getElementById('lblCanvasBg').textContent = t.canvasBg;
+            document.getElementById('lblGuide').textContent = t.guide;
+            document.getElementById('toggleGuideOn').textContent = t.toggleOn;
+            document.getElementById('toggleGuideOff').textContent = t.toggleOff;
+            document.getElementById('lblString').textContent = t.stringColor;
+            document.getElementById('toggleStringOn').textContent = t.show;
+            document.getElementById('toggleStringOff').textContent = t.hide;
+            document.getElementById('lblBraceletSize').textContent = t.braceletSize;
+            document.getElementById('lblBeadLib').textContent = t.beadLib;
+            document.getElementById('lblColorAlpha').textContent = t.colorAlpha;
+            document.getElementById('lblLetter').textContent = t.letter;
+            document.getElementById('lblLetterBg').textContent = t.letterBg;
+            document.getElementById('lblTextColor').textContent = t.textColor;
+
+            document.querySelector('.bead-name-default').textContent = t.beadDefault;
+            document.querySelector('.bead-name-seed').textContent = t.beadSeed;
+            document.querySelector('.bead-name-minipony').textContent = t.beadMiniPony;
+            document.querySelector('.bead-name-round').textContent = t.beadRound;
+            document.querySelector('.bead-name-slim').textContent = t.beadSlim;
+            document.querySelector('.bead-name-ellipse').textContent = t.beadEllipse;
+            document.querySelector('.bead-name-heart').textContent = t.beadHeart;
+            document.querySelector('.bead-name-star').textContent = t.beadStar;
+            document.querySelector('.bead-name-circletxt').textContent = t.beadCircleTxt;
+            document.querySelector('.bead-name-squaretxt').textContent = t.beadSquareTxt;
+
+            document.getElementById('lblAttrEdit').textContent = t.attrEdit;
+            document.getElementById('lblSize').textContent = t.size;
+            document.getElementById('lblCharmOffset').textContent = t.charmOffset;
+            document.getElementById('lblFinish').textContent = t.finish;
+
+            document.getElementById('lblFinishGlossy').textContent = t.finishGlossy;
+            document.getElementById('lblFinishMatte').textContent = t.finishMatte;
+            document.getElementById('lblFinishGlassy').textContent = t.finishGlassy;
+
+            document.getElementById('lblCustomCharms').textContent = t.customCharms;
+            document.getElementById('uploadCharmBtn').textContent = t.uploadCharm;
+            document.getElementById('exportBtn').textContent = t.exportImg;
+            document.getElementById('clearBtn').title = t.clearTitle;
+            document.getElementById('txtSaveBtn').textContent = t.saveDesign;
+            document.getElementById('addSlotBtn').textContent = t.addSlot;
+            document.getElementById('lblToastHeader').textContent = t.toastHeader;
+            document.getElementById('lblToast1').textContent = t.toast1;
+            document.getElementById('lblToast2').textContent = t.toast2;
+
+            updateSelectionUI();
+            renderSlotsUI();
+            drawScene();
+        }
 
         const canvasBgColorInput = document.getElementById('canvasBgColor');
         const bgToggleBtn = document.getElementById('bgToggleBtn');
@@ -787,39 +1257,131 @@
         const closeToastBtn = document.getElementById('closeToastBtn');
         closeToastBtn.addEventListener('click', () => { infoToast.style.display = 'none'; });
 
-        const saveDesignBtn = document.getElementById('saveDesignBtn');
-        const designListEl = document.getElementById('designList');
+        // ================= 侧边悬浮 Save Slot 逻辑 =================
+        const saveTabBtn = document.getElementById('saveTabBtn');
+        const saveDropdown = document.getElementById('saveDropdown');
+        const slotList = document.getElementById('slotList');
+        const addSlotBtn = document.getElementById('addSlotBtn');
 
-        function syncBeadLevelTicks(level) {
-            beadLevelTicks.forEach(t => t.classList.toggle('active', parseInt(t.dataset.level) === level));
+        let slotsData = JSON.parse(localStorage.getItem('kandi_slots_data') || 'null');
+        if (!slotsData) {
+            slotsData = [
+                { id: 1, nameSlotZH: '存档槽位 1', nameSlotENG: 'Design 1', data: null, updatedAt: null },
+                { id: 2, nameSlotZH: '存档槽位 2', nameSlotENG: 'Design 2', data: null, updatedAt: null },
+                { id: 3, nameSlotZH: '存档槽位 3', nameSlotENG: 'Design 3', data: null, updatedAt: null }
+            ];
+            localStorage.setItem('kandi_slots_data', JSON.stringify(slotsData));
         }
-        beadLevelTicks.forEach(t => {
-            t.addEventListener('click', () => {
-                beadLevelSlider.value = t.dataset.level;
-                applyControlChangesToSelected();
-            });
+
+        saveTabBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            saveDropdown.classList.toggle('open');
+            renderSlotsUI();
         });
 
-        const heartRotationSelect = document.getElementById('heartRotationSelect');
-        const finishTypeSelect = document.getElementById('finishType');
-        const ponyColorInput = document.getElementById('ponyColor');
-        const beadAlphaSlider = document.getElementById('beadAlphaSlider');
-        const beadAlphaVal = document.getElementById('beadAlphaVal');
+        document.addEventListener('click', (e) => {
+            if (!saveDropdown.contains(e.target) && e.target !== saveTabBtn) {
+                saveDropdown.classList.remove('open');
+            }
+        });
 
-        const letterInput = document.getElementById('letterInput');
-        const beadBgColorInput = document.getElementById('beadBgColor');
-        const textColorInput = document.getElementById('textColor');
-        const selectionBadge = document.getElementById('selectionBadge');
+        addSlotBtn.addEventListener('click', () => {
+            const nextId = slotsData.length + 1;
+            slotsData.push({
+                id: Date.now(),
+                nameSlotZH: `存档槽位 ${nextId}`,
+                nameSlotENG: `Design ${nextId}`,
+                data: null,
+                updatedAt: null
+            });
+            localStorage.setItem('kandi_slots_data', JSON.stringify(slotsData));
+            renderSlotsUI();
+        });
 
-        const uploadCharmBtn = document.getElementById('uploadCharmBtn');
-        const charmInput = document.getElementById('charmInput');
-        const charmGallery = document.getElementById('charmGallery');
+        function renderSlotsUI() {
+            slotList.innerHTML = '';
+            const t = i18n[currentLang];
 
-        const toggleGuideOn = document.getElementById('toggleGuideOn');
-        const toggleGuideOff = document.getElementById('toggleGuideOff');
-        const exportBtn = document.getElementById('exportBtn');
+            slotsData.forEach((slot) => {
+                const itemEl = document.createElement('div');
+                itemEl.className = `slot-item ${slot.data ? 'has-data' : ''}`;
+                
+                const timeText = slot.updatedAt ? new Date(slot.updatedAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : t.emptySlot;
+                
+                const slotDisplayName = slot.customName || (currentLang === 'ENG' ? (slot.nameSlotENG || `Design ${slot.id}`) : (slot.nameSlotZH || `存档槽位 ${slot.id}`));
 
-        // ================= 本地离线持久化存储逻辑 =================
+                itemEl.innerHTML = `
+                    <div class="slot-info" title="双击重命名">
+                        <span class="slot-name">${slotDisplayName}</span>
+                        <span class="slot-time">${timeText}</span>
+                    </div>
+                    <div class="slot-actions">
+                        <button class="btn-mini load-save-btn" style="background:${slot.data ? '#52c41a' : '#52c41a'};">${slot.data ? t.cover : t.save}</button>
+                        ${slot.data ? `<button class="btn-mini load-btn" style="background:var(--primary-color);">${t.load}</button>` : ''}
+                        <button class="btn-mini btn-delete-slot" title="删除存档">✕</button>
+                    </div>
+                `;
+
+                // 双击重命名
+                const slotInfo = itemEl.querySelector('.slot-info');
+                const slotNameSpan = itemEl.querySelector('.slot-name');
+                slotInfo.addEventListener('dblclick', (e) => {
+                    e.stopPropagation();
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'slot-name-input';
+                    input.value = slotDisplayName;
+                    slotInfo.replaceChild(input, slotNameSpan);
+                    input.focus();
+
+                    const finishEdit = () => {
+                        const val = input.value.trim();
+                        if (val) slot.customName = val;
+                        localStorage.setItem('kandi_slots_data', JSON.stringify(slotsData));
+                        renderSlotsUI();
+                    };
+
+                    input.addEventListener('blur', finishEdit);
+                    input.addEventListener('keydown', (ev) => {
+                        if (ev.key === 'Enter') finishEdit();
+                    });
+                });
+
+                // 保存/覆盖按钮
+                itemEl.querySelector('.load-save-btn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    slot.data = serializeCurrentDesign();
+                    slot.updatedAt = new Date().toISOString();
+                    localStorage.setItem('kandi_slots_data', JSON.stringify(slotsData));
+                    renderSlotsUI();
+                });
+
+                // 读取按钮
+                const loadBtn = itemEl.querySelector('.load-btn');
+                if (loadBtn) {
+                    loadBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (slot.data) {
+                            saveState();
+                            loadDesignData(slot.data);
+                            saveDropdown.classList.remove('open');
+                        }
+                    });
+                }
+
+                // 删除存档按钮
+                itemEl.querySelector('.btn-delete-slot').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    slot.data = null;
+                    slot.updatedAt = null;
+                    localStorage.setItem('kandi_slots_data', JSON.stringify(slotsData));
+                    renderSlotsUI();
+                });
+
+                slotList.appendChild(itemEl);
+            });
+        }
+
         function serializeCurrentDesign() {
             return {
                 radius: circle.radius,
@@ -912,74 +1474,55 @@
             }
         }
 
-        function renderDesignListUI() {
-            designListEl.innerHTML = '';
-            const designs = JSON.parse(localStorage.getItem('kandi_saved_designs') || '[]');
-            if (designs.length === 0) {
-                designListEl.innerHTML = '<div style="font-size:0.75rem; color:#aaa; text-align:center; padding:8px;">暂无保存的设计</div>';
-                return;
-            }
+        // =========================================================
 
-            designs.forEach((item, index) => {
-                const el = document.createElement('div');
-                el.className = 'design-item';
-                el.innerHTML = `
-                    <span class="title-text" title="${item.name}">${item.name}</span>
-                    <div class="design-item-actions">
-                        <button class="btn-mini load" data-index="${index}">载入</button>
-                        <button class="btn-mini delete" data-index="${index}">删除</button>
-                    </div>
-                `;
-                designListEl.appendChild(el);
-            });
-
-            designListEl.querySelectorAll('.btn-mini.load').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const idx = e.target.dataset.index;
-                    const designs = JSON.parse(localStorage.getItem('kandi_saved_designs') || '[]');
-                    if (designs[idx]) {
-                        saveState();
-                        loadDesignData(designs[idx].data);
-                    }
-                });
-            });
-
-            designListEl.querySelectorAll('.btn-mini.delete').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const idx = e.target.dataset.index;
-                    let designs = JSON.parse(localStorage.getItem('kandi_saved_designs') || '[]');
-                    if (confirm(`确认删除设计 "${designs[idx].name}" 吗？`)) {
-                        designs.splice(idx, 1);
-                        localStorage.setItem('kandi_saved_designs', JSON.stringify(designs));
-                        renderDesignListUI();
-                    }
-                });
-            });
+        function syncBeadLevelTicks(level) {
+            beadLevelTicks.forEach(t => t.classList.toggle('active', parseInt(t.dataset.level) === level));
         }
-
-        saveDesignBtn.addEventListener('click', () => {
-            const name = prompt('请输入当前设计的名字：', `手链设计 ${new Date().toLocaleDateString()}`);
-            if (name && name.trim() !== '') {
-                const designs = JSON.parse(localStorage.getItem('kandi_saved_designs') || '[]');
-                designs.push({
-                    id: Date.now(),
-                    name: name.trim(),
-                    data: serializeCurrentDesign()
-                });
-                try {
-                    localStorage.setItem('kandi_saved_designs', JSON.stringify(designs));
-                    renderDesignListUI();
-                } catch(e) {
-                    alert('保存失败：可能是上传了过大的图片导致本地存储已满。');
-                }
-            }
+        beadLevelTicks.forEach(t => {
+            t.addEventListener('click', () => {
+                beadLevelSlider.value = t.dataset.level;
+                applyControlChangesToSelected();
+            });
         });
 
-        // =========================================================
+        const finishTypeSelect = { value: 'glossy' };
+        const finishOptionEls = document.querySelectorAll('.finish-item');
+
+        function syncFinishUI() {
+            finishOptionEls.forEach(el => {
+                el.classList.toggle('active', el.dataset.finish === finishTypeSelect.value);
+            });
+        }
+        syncFinishUI();
+
+        finishOptionEls.forEach(el => {
+            el.addEventListener('click', () => {
+                finishTypeSelect.value = el.dataset.finish;
+                syncFinishUI();
+                applyControlChangesToSelected();
+            });
+        });
+
+        const ponyColorInput = document.getElementById('ponyColor');
+        const beadAlphaSlider = document.getElementById('beadAlphaSlider');
+        const beadAlphaVal = document.getElementById('beadAlphaVal');
+
+        const letterInput = document.getElementById('letterInput');
+        const beadBgColorInput = document.getElementById('beadBgColor');
+        const textColorInput = document.getElementById('textColor');
+        const selectionBadge = document.getElementById('selectionBadge');
+
+        const uploadCharmBtn = document.getElementById('uploadCharmBtn');
+        const charmInput = document.getElementById('charmInput');
+        const charmGallery = document.getElementById('charmGallery');
+
+        const toggleGuideOn = document.getElementById('toggleGuideOn');
+        const toggleGuideOff = document.getElementById('toggleGuideOff');
+        const exportBtn = document.getElementById('exportBtn');
 
         document.fonts.ready.then(() => {
             restoreLastDesign();
-            renderDesignListUI();
             drawScene();
         });
 
@@ -1058,6 +1601,7 @@
             }
         });
 
+        // 保留彩虹挂件
         function initDefaultRainbowCharm() {
             const rainbowSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
                 <path d="M 10,80 A 40,40 0 0,1 90,80" fill="none" stroke="#ff4d4f" stroke-width="8" stroke-linecap="round"/>
@@ -1229,10 +1773,9 @@
             const colorRgba = hexToRgba(colorHex, alpha);
             const level = parseInt(beadLevelSlider.value);
             const finish = finishTypeSelect.value;
-            const heartRot = parseInt(heartRotationSelect.value);
 
             syncBeadLevelTicks(level);
-            updatePreviewIcons(colorRgba, char, heartRot);
+            updatePreviewIcons(colorRgba, char);
 
             if (selectedBeadIds.size > 0) {
                 beadsOnString.forEach(bead => {
@@ -1246,7 +1789,6 @@
                         bead.finish = finish;
                         bead.sizeLevel = level;
                         bead.scale = sizeLevelScaleMap[level];
-                        bead.heartRotation = heartRot;
                     }
                 });
                 drawScene();
@@ -1255,31 +1797,26 @@
             }
         }
 
-        function updatePreviewIcons(color, char, heartRot) {
+        function updatePreviewIcons(color, char) {
             document.getElementById('prevPony').setAttribute('fill', color);
             document.getElementById('prevSeed').setAttribute('fill', color);
             document.getElementById('prevMiniPony').setAttribute('fill', color);
             document.getElementById('prevRound').setAttribute('fill', color);
             document.getElementById('prevSlim').setAttribute('fill', color);
-            document.getElementById('prevSlim').setAttribute('transform', `rotate(${heartRot}, 15, 15)`);
             document.getElementById('prevEllipse').setAttribute('fill', color);
-            document.getElementById('prevEllipse').setAttribute('transform', `rotate(${heartRot}, 15, 15)`);
             document.getElementById('prevHeart').setAttribute('fill', color);
-            document.getElementById('prevHeart').setAttribute('transform', `rotate(${heartRot}, 15, 15)`);
             document.getElementById('prevStar').setAttribute('fill', color);
 
             document.getElementById('prevCircleBg').setAttribute('fill', beadBgColorInput.value);
             document.getElementById('prevCircleTxt').setAttribute('fill', textColorInput.value);
             document.getElementById('prevCircleTxt').textContent = char;
-            document.getElementById('prevCircleGroup').setAttribute('transform', `rotate(${heartRot}, 15, 15)`);
 
             document.getElementById('prevSquareBg').setAttribute('fill', beadBgColorInput.value);
             document.getElementById('prevSquareTxt').setAttribute('fill', textColorInput.value);
             document.getElementById('prevSquareTxt').textContent = char;
-            document.getElementById('prevSquareGroup').setAttribute('transform', `rotate(${heartRot}, 15, 15)`);
         }
 
-        [ponyColorInput, beadAlphaSlider, letterInput, beadBgColorInput, textColorInput, finishTypeSelect, beadLevelSlider, heartRotationSelect].forEach(el => {
+        [ponyColorInput, beadAlphaSlider, letterInput, beadBgColorInput, textColorInput, beadLevelSlider].forEach(el => {
             el.addEventListener('input', applyControlChangesToSelected);
         });
 
@@ -1327,13 +1864,14 @@
 
         function updateSelectionUI() {
             let hasCharmSelected = false;
+            const t = i18n[currentLang];
 
             if (selectedBeadIds.size === 1) {
                 const singleId = Array.from(selectedBeadIds)[0];
                 const bead = beadsOnString.find(b => b.id === singleId);
                 if (bead) {
                     selectionBadge.style.display = 'inline-block';
-                    selectionBadge.textContent = bead.type === 'custom-charm' ? '编辑挂件' : '编辑珠子';
+                    selectionBadge.textContent = bead.type === 'custom-charm' ? t.editCharm : t.editBead;
 
                     if (bead.type === 'custom-charm') {
                         hasCharmSelected = true;
@@ -1350,15 +1888,15 @@
                     if (bead.textColor) textColorInput.value = bead.textColor;
                     if (bead.text) letterInput.value = bead.text;
                     finishTypeSelect.value = bead.finish || 'glossy';
+                    syncFinishUI();
                     beadLevelSlider.value = bead.sizeLevel || 4;
-                    heartRotationSelect.value = bead.heartRotation || 0;
 
                     syncBeadLevelTicks(bead.sizeLevel || 4);
-                    updatePreviewIcons(bead.color || '#ff4646', letterInput.value, parseInt(heartRotationSelect.value));
+                    updatePreviewIcons(bead.color || '#ff4646', letterInput.value);
                 }
             } else if (selectedBeadIds.size > 1) {
                 selectionBadge.style.display = 'inline-block';
-                selectionBadge.textContent = `已选中 ${selectedBeadIds.size} 项`;
+                selectionBadge.textContent = t.selectedCount.replace('{n}', selectedBeadIds.size);
 
                 beadsOnString.forEach(b => {
                     if (selectedBeadIds.has(b.id) && b.type === 'custom-charm') {
@@ -1421,6 +1959,22 @@
             return brightness < 128 ? 'rgba(255, 255, 255, 0.85)' : 'rgba(0, 0, 0, 0.65)';
         }
 
+        // 计算旋转 Icon 的坐标位置
+        function getRotateHandlePos(bead) {
+            let beadScale = bead.scale || 4.0;
+            if (bead.type === 'seed' || bead.type === 'mini-pony') beadScale *= 0.5;
+            if (bead.type === 'star') beadScale *= 0.8;
+            const handleDist = (bead.type === 'star') ? 16 * beadScale : 14 * beadScale;
+            
+            const currentRotation = (bead.rotation || 0) * Math.PI / 180;
+            const angle = bead.angle + Math.PI / 2 + currentRotation - Math.PI / 2;
+
+            return {
+                x: bead.x + handleDist * Math.cos(angle),
+                y: bead.y + handleDist * Math.sin(angle)
+            };
+        }
+
         function drawScene(renderForExport = false) {
             if (customBgImage) {
                 ctx.drawImage(customBgImage, 0, 0, canvas.width, canvas.height);
@@ -1430,6 +1984,7 @@
             }
 
             const dynamicGuideColor = getGuideColor();
+            const t = i18n[currentLang];
 
             if (showStringLine) {
                 const sColorHex = stringColorInput.value;
@@ -1484,7 +2039,7 @@
                     ctx.font = '15px Arial';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
-                    ctx.fillText('点击此处上传图片', circle.x, circle.y);
+                    ctx.fillText(t.uploadText, circle.x, circle.y);
                 }
             }
             ctx.restore();
@@ -1502,11 +2057,12 @@
                 const posY = circle.y;
 
                 ctx.save();
+                ctx.globalAlpha = 0.75;
                 ctx.fillStyle = dynamicGuideColor;
                 ctx.font = 'bold 13px Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                const lines = ['拖拽', '此侧', '旋转'];
+                const lines = t.rotateText;
                 const lineHeight = 18;
                 lines.forEach((line, index) => {
                     ctx.fillText(line, posX, posY + (index - 1) * lineHeight);
@@ -1560,6 +2116,9 @@
                     if (bead.charmImg) {
                         const charmSize = 56 * (beadScale / 4);
                         ctx.translate(charmX, charmY);
+                        if (bead.rotation) {
+                            ctx.rotate((bead.rotation * Math.PI) / 180);
+                        }
                         ctx.drawImage(bead.charmImg, -charmSize / 2, -charmSize / 2, charmSize, charmSize);
                     }
 
@@ -1583,8 +2142,8 @@
                 ctx.save();
                 ctx.scale(beadScale * 0.5, beadScale * 0.5);
 
-                if (bead.heartRotation) {
-                    ctx.rotate((bead.heartRotation * Math.PI) / 180);
+                if (bead.rotation) {
+                    ctx.rotate((bead.rotation * Math.PI) / 180);
                 }
 
                 if (bead.type === 'pony' || bead.type === 'mini-pony') {
@@ -1675,6 +2234,52 @@
                 ctx.restore();
             });
 
+            // 渲染单选珠子时的旋转Icon控制柄
+            if (selectedBeadIds.size === 1 && !renderForExport) {
+                const singleId = Array.from(selectedBeadIds)[0];
+                const selectedBead = beadsOnString.find(b => b.id === singleId);
+                if (selectedBead) {
+                    const handlePos = getRotateHandlePos(selectedBead);
+                    ctx.save();
+                    
+                    // 虚连接线
+                    ctx.beginPath();
+                    ctx.moveTo(selectedBead.x, selectedBead.y);
+                    ctx.lineTo(handlePos.x, handlePos.y);
+                    ctx.strokeStyle = '#1890ff';
+                    ctx.lineWidth = 1.5;
+                    ctx.setLineDash([3, 3]);
+                    ctx.stroke();
+
+                    // Icon 按钮底色
+                    ctx.beginPath();
+                    ctx.arc(handlePos.x, handlePos.y, 11, 0, Math.PI * 2);
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fill();
+                    ctx.strokeStyle = '#1890ff';
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([]);
+                    ctx.stroke();
+
+                    // 旋转箭头Icon图标
+                    ctx.translate(handlePos.x, handlePos.y);
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 5.5, -Math.PI / 2, Math.PI, false);
+                    ctx.strokeStyle = '#1890ff';
+                    ctx.lineWidth = 1.8;
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(-2, -7.5);
+                    ctx.lineTo(0, -5.5);
+                    ctx.lineTo(-2, -3.5);
+                    ctx.fillStyle = '#1890ff';
+                    ctx.fill();
+
+                    ctx.restore();
+                }
+            }
+
             if (selectionBox && !renderForExport) {
                 ctx.save();
                 ctx.strokeStyle = '#1890ff';
@@ -1739,7 +2344,8 @@
                     const hitLimit = 8 * beadScale;
                     const dist = Math.hypot(b.x - clickX, b.y - clickY);
                     if (dist <= hitLimit) {
-                        const newChar = prompt('输入字母/字符 (单字):', b.text || 'A');
+                        const t = i18n[currentLang];
+                        const newChar = prompt(t.inputPrompt, b.text || 'A');
                         if (newChar !== null && newChar.trim() !== '') {
                             saveState();
                             b.text = newChar.trim().slice(0, 1);
@@ -1758,6 +2364,28 @@
             const scaleFactor = canvas.width / rect.width;
             const clickX = (e.clientX - rect.left) * scaleFactor;
             const clickY = (e.clientY - rect.top) * scaleFactor;
+
+            // 检测旋转 Icon 的点击
+            if (selectedBeadIds.size === 1) {
+                const singleId = Array.from(selectedBeadIds)[0];
+                const selectedBead = beadsOnString.find(b => b.id === singleId);
+                if (selectedBead) {
+                    const handlePos = getRotateHandlePos(selectedBead);
+                    const distToHandle = Math.hypot(clickX - handlePos.x, clickY - handlePos.y);
+                    if (distToHandle <= 15) {
+                        saveState();
+                        draggingState = {
+                            mode: 'ROTATE_SINGLE_BEAD',
+                            bead: selectedBead,
+                            initialRotation: selectedBead.rotation || 0,
+                            startAngle: Math.atan2(clickY - selectedBead.y, clickX - selectedBead.x)
+                        };
+                        window.addEventListener('pointermove', onPointerMove);
+                        window.addEventListener('pointerup', onPointerUp);
+                        return;
+                    }
+                }
+            }
 
             const boxSize = circle.radius * 1.1 * imageScale;
             const boxX = circle.x - boxSize / 2;
@@ -1848,7 +2476,14 @@
             const mouseX = (e.clientX - rect.left) * scaleFactor;
             const mouseY = (e.clientY - rect.top) * scaleFactor;
 
-            if (draggingState.mode === 'NEW' || draggingState.mode === 'NEW_CHARM') {
+            if (draggingState.mode === 'ROTATE_SINGLE_BEAD') {
+                const bead = draggingState.bead;
+                const currentAngle = Math.atan2(mouseY - bead.y, mouseX - bead.x);
+                const deltaAngle = currentAngle - draggingState.startAngle;
+                let deg = draggingState.initialRotation + (deltaAngle * 180 / Math.PI);
+                bead.rotation = (deg % 360 + 360) % 360;
+                drawScene();
+            } else if (draggingState.mode === 'NEW' || draggingState.mode === 'NEW_CHARM') {
                 updateGhostPos(e.clientX, e.clientY);
             } else if (draggingState.mode === 'BOX_SELECT') {
                 selectionBox.currentX = mouseX;
@@ -1904,101 +2539,85 @@
         function onPointerUp(e) {
             if (!draggingState) return;
 
+            window.removeEventListener('pointermove', onPointerMove);
+            window.removeEventListener('pointerup', onPointerUp);
+
             if (draggingState.mode === 'NEW' || draggingState.mode === 'NEW_CHARM') {
+                dragGhost.style.display = 'none';
+
                 const rect = canvas.getBoundingClientRect();
-                if (
-                    e.clientX >= rect.left && e.clientX <= rect.right &&
-                    e.clientY >= rect.top && e.clientY <= rect.bottom
-                ) {
-                    saveState();
+                if (e.clientX >= rect.left && e.clientX <= rect.right &&
+                    e.clientY >= rect.top && e.clientY <= rect.bottom) {
 
                     const scaleFactor = canvas.width / rect.width;
                     const mouseX = (e.clientX - rect.left) * scaleFactor;
                     const mouseY = (e.clientY - rect.top) * scaleFactor;
 
-                    const angle = Math.atan2(mouseY - circle.y, mouseX - circle.x);
-                    const beadX = circle.x + circle.radius * Math.cos(angle);
-                    const beadY = circle.y + circle.radius * Math.sin(angle);
-
-                    const char = letterInput.value.slice(0, 1) || 'A';
-                    const level = parseInt(beadLevelSlider.value);
-                    const isCharmType = (draggingState.mode === 'NEW_CHARM');
-
+                    const dropAngle = Math.atan2(mouseY - circle.y, mouseX - circle.x);
                     const colorHex = ponyColorInput.value;
                     const alpha = parseFloat(beadAlphaSlider.value);
                     const colorRgba = hexToRgba(colorHex, alpha);
+                    const char = letterInput.value.slice(0, 1) || 'A';
 
-                    const newBead = {
-                        id: Date.now() + Math.random(),
-                        type: isCharmType ? 'custom-charm' : draggingState.type,
-                        x: beadX,
-                        y: beadY,
-                        angle: angle,
-                        color: colorRgba,
-                        colorHex: colorHex,
-                        alpha: alpha,
-                        bgColor: beadBgColorInput.value,
-                        textColor: textColorInput.value,
-                        text: char,
-                        sizeLevel: level,
-                        scale: sizeLevelScaleMap[level],
-                        finish: finishTypeSelect.value,
-                        heartRotation: parseInt(heartRotationSelect.value),
-                        charmOffset: parseInt(charmOffsetSlider.value),
-                        charmImg: isCharmType ? draggingState.charmObj.img : null
-                    };
+                    const level = parseInt(beadLevelSlider.value);
+                    const finish = finishTypeSelect.value;
+                    const sizeScale = sizeLevelScaleMap[level];
 
-                    beadsOnString.push(newBead);
+                    saveState();
+
+                    const newId = Date.now() + Math.random();
+
+                    if (draggingState.mode === 'NEW_CHARM') {
+                        beadsOnString.push({
+                            id: newId,
+                            type: 'custom-charm',
+                            angle: dropAngle,
+                            x: circle.x + circle.radius * Math.cos(dropAngle),
+                            y: circle.y + circle.radius * Math.sin(dropAngle),
+                            sizeLevel: level,
+                            scale: sizeScale,
+                            charmImg: draggingState.charmObj.img,
+                            charmOffset: parseInt(charmOffsetSlider.value) || 70,
+                            rotation: 0
+                        });
+                    } else {
+                        beadsOnString.push({
+                            id: newId,
+                            type: draggingState.type,
+                            angle: dropAngle,
+                            x: circle.x + circle.radius * Math.cos(dropAngle),
+                            y: circle.y + circle.radius * Math.sin(dropAngle),
+                            color: colorRgba,
+                            colorHex: colorHex,
+                            alpha: alpha,
+                            bgColor: beadBgColorInput.value,
+                            textColor: textColorInput.value,
+                            text: char,
+                            finish: finish,
+                            sizeLevel: level,
+                            scale: sizeScale,
+                            rotation: 0
+                        });
+                    }
+
                     beadsOnString.sort((a, b) => a.angle - b.angle);
 
                     selectedBeadIds.clear();
-                    selectedBeadIds.add(newBead.id);
+                    selectedBeadIds.add(newId);
                     updateSelectionUI();
+                    autoSaveLastDesign();
                 }
-                dragGhost.style.display = 'none';
             } else if (draggingState.mode === 'BOX_SELECT') {
                 selectionBox = null;
                 updateSelectionUI();
-                drawScene();
-            }
-
-            autoSaveLastDesign();
-            draggingState = null;
-            window.removeEventListener('pointermove', onPointerMove);
-            window.removeEventListener('pointerup', onPointerUp);
-        }
-
-        document.getElementById('menuCopyBtn').addEventListener('click', () => {
-            if (selectedBeadIds.size > 0) {
-                saveState();
-                const newSelection = new Set();
-
-                beadsOnString.forEach(sourceBead => {
-                    if (selectedBeadIds.has(sourceBead.id)) {
-                        const newAngle = sourceBead.angle + 0.15;
-                        const beadX = circle.x + circle.radius * Math.cos(newAngle);
-                        const beadY = circle.y + circle.radius * Math.sin(newAngle);
-
-                        const duplicatedBead = {
-                            ...sourceBead,
-                            id: Date.now() + Math.random(),
-                            angle: newAngle,
-                            x: beadX,
-                            y: beadY
-                        };
-
-                        beadsOnString.push(duplicatedBead);
-                        newSelection.add(duplicatedBead.id);
-                    }
-                });
-
-                beadsOnString.sort((a, b) => a.angle - b.angle);
-                selectedBeadIds = newSelection;
-                updateSelectionUI();
+            } else {
                 autoSaveLastDesign();
             }
-        });
 
+            draggingState = null;
+        }
+
+        // 上下文菜单：删除与复制
         document.getElementById('menuDeleteBtn').addEventListener('click', () => {
             if (selectedBeadIds.size > 0) {
                 saveState();
@@ -2009,16 +2628,70 @@
             }
         });
 
-        document.getElementById('clearBtn').addEventListener('click', () => {
-            if (beadsOnString.length > 0) {
-                if (confirm('确认清空设计？')) {
-                    saveState();
-                    beadsOnString = [];
-                    selectedBeadIds.clear();
-                    updateSelectionUI();
-                    autoSaveLastDesign();
-                }
+        document.getElementById('menuCopyBtn').addEventListener('click', () => {
+            if (selectedBeadIds.size > 0) {
+                saveState();
+                const newCopies = [];
+                const angleOffset = 0.15;
+
+                beadsOnString.forEach(b => {
+                    if (selectedBeadIds.has(b.id)) {
+                        const copy = { ...b, id: Date.now() + Math.random(), angle: b.angle + angleOffset };
+                        copy.x = circle.x + circle.radius * Math.cos(copy.angle);
+                        copy.y = circle.y + circle.radius * Math.sin(copy.angle);
+                        newCopies.push(copy);
+                    }
+                });
+
+                selectedBeadIds.clear();
+                newCopies.forEach(c => {
+                    beadsOnString.push(c);
+                    selectedBeadIds.add(c.id);
+                });
+
+                beadsOnString.sort((a, b) => a.angle - b.angle);
+                updateSelectionUI();
+                autoSaveLastDesign();
             }
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            const t = i18n[currentLang];
+            if (confirm(t.confirmClear)) {
+                saveState();
+                beadsOnString = [];
+                selectedBeadIds.clear();
+                centerImage = null;
+                updateSelectionUI();
+                autoSaveLastDesign();
+            }
+        });
+
+        // 侧边栏拖拽调宽
+        const sidebar = document.getElementById('sidebar');
+        const handle = document.getElementById('sidebar-resize-handle');
+
+        handle.addEventListener('pointerdown', (e) => {
+            e.preventDefault();
+            handle.classList.add('dragging');
+            document.body.classList.add('sidebar-resizing');
+
+            const onMove = (evt) => {
+                let newW = evt.clientX;
+                if (newW < 260) newW = 260;
+                if (newW > 550) newW = 550;
+                sidebar.style.width = newW + 'px';
+            };
+
+            const onUp = () => {
+                handle.classList.remove('dragging');
+                document.body.classList.remove('sidebar-resizing');
+                window.removeEventListener('pointermove', onMove);
+                window.removeEventListener('pointerup', onUp);
+            };
+
+            window.addEventListener('pointermove', onMove);
+            window.addEventListener('pointerup', onUp);
         });
     </script>
 </body>
