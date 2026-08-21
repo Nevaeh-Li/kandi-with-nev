@@ -1771,7 +1771,7 @@ Peace Love Unity Respect ❤ - Nev</p>
             }
         });
 
-        function applyControlChangesToSelected() {
+        function applyControlChangesToSelected(source) {
             const char = letterInput.value.slice(0, 1) || 'A';
             const colorHex = ponyColorInput.value;
             const alpha = parseFloat(beadAlphaSlider.value);
@@ -1792,7 +1792,11 @@ Peace Love Unity Respect ❤ - Nev</p>
                         bead.alpha = alpha;
                         bead.bgColor = beadBgColorInput.value;
                         bead.textColor = textColorInput.value;
-                        bead.text = char;
+                        // 仅当用户主动编辑"字母"输入框时才覆盖字母内容，
+                        // 避免调整颜色/质地/尺寸等无关设置时把多选珠子的字母统一成同一个字符
+                        if (source === 'letter') {
+                            bead.text = char;
+                        }
                         bead.finish = finish;
                         bead.sizeLevel = level;
                         bead.scale = sizeLevelScaleMap[level];
@@ -1823,9 +1827,10 @@ Peace Love Unity Respect ❤ - Nev</p>
             document.getElementById('prevSquareTxt').textContent = char;
         }
 
-        [ponyColorInput, beadAlphaSlider, letterInput, beadBgColorInput, textColorInput, beadLevelSlider].forEach(el => {
-            el.addEventListener('input', applyControlChangesToSelected);
+        [ponyColorInput, beadAlphaSlider, beadBgColorInput, textColorInput, beadLevelSlider].forEach(el => {
+            el.addEventListener('input', () => applyControlChangesToSelected());
         });
+        letterInput.addEventListener('input', () => applyControlChangesToSelected('letter'));
 
         radiusSlider.addEventListener('input', (e) => {
             circle.radius = parseFloat(e.target.value);
@@ -1966,6 +1971,7 @@ Peace Love Unity Respect ❤ - Nev</p>
             return brightness < 128 ? 'rgba(255, 255, 255, 0.85)' : 'rgba(0, 0, 0, 0.65)';
         }
 
+
         // 计算旋转 Icon 的坐标位置
         function getRotateHandlePos(bead) {
             let beadScale = bead.scale || 4.0;
@@ -2064,13 +2070,28 @@ Peace Love Unity Respect ❤ - Nev</p>
                 const posY = circle.y;
 
                 ctx.save();
-                ctx.globalAlpha = 0.75;
-                ctx.fillStyle = dynamicGuideColor;
-                ctx.font = 'bold 13px Arial';
+                ctx.font = '13px Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 const lines = t.rotateText;
                 const lineHeight = 18;
+
+                // 绘制一个半透明白色虚线边框的长方形作为背景（宽高对调）
+                const paddingY = 8;
+                const blockHeight = canvas.width / 2;
+                const blockWidth = lines.length * lineHeight + paddingY * 2 - (lineHeight - 13);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.beginPath();
+                ctx.rect(posX - blockWidth / 2, posY - blockHeight / 2, blockWidth, blockHeight);
+                ctx.fill();
+                ctx.strokeStyle = dynamicGuideColor;
+                ctx.lineWidth = 2;
+                ctx.setLineDash([6, 6]);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // 文字设置为黑色
+                ctx.fillStyle = '#000000';
                 lines.forEach((line, index) => {
                     ctx.fillText(line, posX, posY + (index - 1) * lineHeight);
                 });
