@@ -459,6 +459,163 @@
 
         .btn-secondary { background: var(--primary-color); }
 
+        #watermarkModalOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 500;
+        }
+
+        #watermarkModal {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 24px;
+            width: 340px;
+            max-width: 90vw;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+            box-sizing: border-box;
+        }
+
+        #watermarkModal h3 {
+            margin: 0 0 4px 0;
+            font-size: 1.1rem;
+        }
+
+        #watermarkModal .wm-sub {
+            margin: 0 0 16px 0;
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .wm-section-label {
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #444;
+        }
+
+        .wm-position-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .wm-pos-btn {
+            border: 2px solid #e0e0e0;
+            background: #fafafa;
+            border-radius: 8px;
+            padding: 10px 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.15s;
+            color: #555;
+        }
+
+        .wm-pos-btn:hover {
+            border-color: var(--primary-color);
+        }
+
+        .wm-pos-btn.active {
+            border-color: var(--primary-color);
+            background: #eaf3ff;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .wm-color-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .wm-color-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            background: #fafafa;
+            color: #555;
+        }
+
+        .wm-color-btn.active {
+            border-color: var(--primary-color);
+            background: #eaf3ff;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .wm-color-swatch {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+            flex-shrink: 0;
+        }
+
+        .wm-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .wm-actions .btn {
+            flex: 1;
+        }
+
+        #watermarkPreviewOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 501;
+        }
+
+        #watermarkPreviewModal {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 24px;
+            width: 420px;
+            max-width: 90vw;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+            box-sizing: border-box;
+        }
+
+        #watermarkPreviewModal h3 {
+            margin: 0 0 4px 0;
+            font-size: 1.1rem;
+        }
+
+        #watermarkPreviewImgWrap {
+            width: 100%;
+            max-height: 55vh;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: repeating-conic-gradient(#f0f0f0 0% 25%, #ffffff 0% 50%) 50% / 20px 20px;
+            border-radius: 10px;
+            margin: 14px 0 18px 0;
+        }
+
+        #watermarkPreviewImg {
+            max-width: 100%;
+            max-height: 55vh;
+            display: block;
+            border-radius: 8px;
+        }
+
         #workspace {
             flex: 1;
             display: flex;
@@ -1027,6 +1184,53 @@ Peace Love Unity Respect ❤ - Nev</p>
 
     <div id="drag-ghost"></div>
 
+    <div id="watermarkModalOverlay">
+        <div id="watermarkModal">
+            <h3 id="watermarkTitle">水印设置</h3>
+            <p class="wm-sub" id="watermarkSubtitle">导出前设置图片水印</p>
+
+            <div class="wm-section-label" id="watermarkPositionLabel">位置</div>
+            <div class="wm-position-grid">
+                <button class="wm-pos-btn" data-pos="top-left" id="wmPosTopLeft">左上</button>
+                <button class="wm-pos-btn" data-pos="top-center" id="wmPosTopCenter">中上</button>
+                <button class="wm-pos-btn" data-pos="top-right" id="wmPosTopRight">右上</button>
+                <button class="wm-pos-btn active" data-pos="bottom-left" id="wmPosBottomLeft">左下</button>
+                <button class="wm-pos-btn" data-pos="bottom-center" id="wmPosBottomCenter">中下</button>
+                <button class="wm-pos-btn" data-pos="bottom-right" id="wmPosBottomRight">右下</button>
+            </div>
+
+            <div class="wm-section-label" id="watermarkColorLabel">颜色</div>
+            <div class="wm-color-row">
+                <button class="wm-color-btn active" data-color="#1a1a1a" id="wmColorBlack">
+                    <span class="wm-color-swatch" style="background:#1a1a1a;"></span><span id="wmColorBlackText">黑色</span>
+                </button>
+                <button class="wm-color-btn" data-color="#ffffff" id="wmColorWhite">
+                    <span class="wm-color-swatch" style="background:#ffffff;"></span><span id="wmColorWhiteText">白色</span>
+                </button>
+            </div>
+
+            <div class="wm-actions">
+                <button class="btn btn-secondary" id="watermarkCancelBtn">取消</button>
+                <button class="btn btn-export-short" id="watermarkConfirmBtn">预览</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="watermarkPreviewOverlay">
+        <div id="watermarkPreviewModal">
+            <h3 id="watermarkPreviewTitle">下载预览</h3>
+            <p class="wm-sub" id="watermarkPreviewSubtitle">确认无误后点击下载</p>
+            <div id="watermarkPreviewImgWrap">
+                <img id="watermarkPreviewImg" alt="预览图" />
+            </div>
+            <div class="wm-actions">
+                <button class="btn btn-secondary" id="watermarkPreviewBackBtn">返回</button>
+                <button class="btn btn-export-short" id="watermarkPreviewDownloadBtn">下载</button>
+            </div>
+        </div>
+    </div>
+
+
     <script>
         const canvas = document.getElementById('stringCanvas');
         const ctx = canvas.getContext('2d');
@@ -1111,6 +1315,25 @@ Peace Love Unity Respect ❤ - Nev</p>
                 defaultSlotName: "存档槽位 ",
                 confirmClear: "确认清空设计？",
                 inputPrompt: "输入字母/字符 (单字):",
+                watermarkTitle: "水印设置",
+                watermarkSubtitle: "导出前设置图片水印",
+                watermarkPosition: "位置",
+                watermarkTopLeft: "左上",
+                watermarkTopCenter: "中上",
+                watermarkTopRight: "右上",
+                watermarkBottomLeft: "左下",
+                watermarkBottomCenter: "中下",
+                watermarkBottomRight: "右下",
+                watermarkColor: "颜色",
+                watermarkBlack: "黑色",
+                watermarkWhite: "白色",
+                watermarkCancel: "取消",
+                watermarkPreview: "预览",
+                watermarkPreviewTitle: "下载预览",
+                watermarkPreviewSubtitle: "确认无误后点击下载",
+                watermarkPreviewAlt: "预览图",
+                watermarkBack: "返回",
+                watermarkDownload: "下载",
                 menuCopy: "📋 复制",
                 menuDelete: "🗑️ 删除"
             },
@@ -1170,6 +1393,25 @@ Peace Love Unity Respect ❤ - Nev</p>
                 defaultSlotName: "Design ",
                 confirmClear: "Clear all?",
                 inputPrompt: "Enter letter/character (1 char):",
+                watermarkTitle: "Watermark Settings",
+                watermarkSubtitle: "Set an image watermark before exporting",
+                watermarkPosition: "Position",
+                watermarkTopLeft: "Top Left",
+                watermarkTopCenter: "Top Center",
+                watermarkTopRight: "Top Right",
+                watermarkBottomLeft: "Bottom Left",
+                watermarkBottomCenter: "Bottom Center",
+                watermarkBottomRight: "Bottom Right",
+                watermarkColor: "Color",
+                watermarkBlack: "Black",
+                watermarkWhite: "White",
+                watermarkCancel: "Cancel",
+                watermarkPreview: "Preview",
+                watermarkPreviewTitle: "Download Preview",
+                watermarkPreviewSubtitle: "Review the image, then click Download",
+                watermarkPreviewAlt: "Preview image",
+                watermarkBack: "Back",
+                watermarkDownload: "Download",
                 menuCopy: "📋 Duplicate",
                 menuDelete: "🗑️ Delete"
             }
@@ -1236,6 +1478,27 @@ Peace Love Unity Respect ❤ - Nev</p>
 
             document.getElementById('txtMenuCopy').textContent = t.menuCopy;
             document.getElementById('txtMenuDelete').textContent = t.menuDelete;
+
+            // 水印设置与预览弹窗也随语言切换
+            document.getElementById('watermarkTitle').textContent = t.watermarkTitle;
+            document.getElementById('watermarkSubtitle').textContent = t.watermarkSubtitle;
+            document.getElementById('watermarkPositionLabel').textContent = t.watermarkPosition;
+            document.getElementById('wmPosTopLeft').textContent = t.watermarkTopLeft;
+            document.getElementById('wmPosTopCenter').textContent = t.watermarkTopCenter;
+            document.getElementById('wmPosTopRight').textContent = t.watermarkTopRight;
+            document.getElementById('wmPosBottomLeft').textContent = t.watermarkBottomLeft;
+            document.getElementById('wmPosBottomCenter').textContent = t.watermarkBottomCenter;
+            document.getElementById('wmPosBottomRight').textContent = t.watermarkBottomRight;
+            document.getElementById('watermarkColorLabel').textContent = t.watermarkColor;
+            document.getElementById('wmColorBlackText').textContent = t.watermarkBlack;
+            document.getElementById('wmColorWhiteText').textContent = t.watermarkWhite;
+            document.getElementById('watermarkCancelBtn').textContent = t.watermarkCancel;
+            document.getElementById('watermarkConfirmBtn').textContent = t.watermarkPreview;
+            document.getElementById('watermarkPreviewTitle').textContent = t.watermarkPreviewTitle;
+            document.getElementById('watermarkPreviewSubtitle').textContent = t.watermarkPreviewSubtitle;
+            document.getElementById('watermarkPreviewImg').alt = t.watermarkPreviewAlt;
+            document.getElementById('watermarkPreviewBackBtn').textContent = t.watermarkBack;
+            document.getElementById('watermarkPreviewDownloadBtn').textContent = t.watermarkDownload;
 
             updateSelectionUI();
             renderSlotsUI();
@@ -2327,12 +2590,101 @@ Peace Love Unity Respect ❤ - Nev</p>
         }
 
         exportBtn.addEventListener('click', () => {
+            watermarkModalOverlay.style.display = 'flex';
+        });
+
+        const watermarkModalOverlay = document.getElementById('watermarkModalOverlay');
+        const watermarkCancelBtn = document.getElementById('watermarkCancelBtn');
+        const watermarkConfirmBtn = document.getElementById('watermarkConfirmBtn');
+        const wmPosButtons = document.querySelectorAll('.wm-pos-btn');
+        const wmColorButtons = document.querySelectorAll('.wm-color-btn');
+
+        let selectedWatermarkPos = 'bottom-left';
+        let selectedWatermarkColor = '#1a1a1a';
+
+        wmPosButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                wmPosButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedWatermarkPos = btn.dataset.pos;
+            });
+        });
+
+        wmColorButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                wmColorButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedWatermarkColor = btn.dataset.color;
+            });
+        });
+
+        watermarkCancelBtn.addEventListener('click', () => {
+            watermarkModalOverlay.style.display = 'none';
+        });
+
+        function drawWatermark(position, color) {
+            const text = 'KANDIWITHNEV';
+            const createdText = 'CREATED USING';
+            const margin = 20;
+            const mainFontSize = 19;
+            const createdFontSize = 11;
+            const lineGap = 1;
+
+            ctx.save();
+            ctx.textAlign = 'center';
+            ctx.textBaseline = position.startsWith('top') ? 'top' : 'bottom';
+
+            const x = canvas.width / 2;
+            let mainY, createdY;
+
+            if (position.startsWith('top')) {
+                createdY = margin;
+                mainY = margin + createdFontSize + lineGap;
+            } else {
+                mainY = canvas.height - margin;
+                createdY = mainY - mainFontSize - lineGap;
+            }
+
+            ctx.font = `${createdFontSize}px 'Kirang Haerang', cursive`;
+            ctx.fillStyle = '#888888';
+            ctx.fillText(createdText, x, createdY);
+
+            ctx.font = `${mainFontSize}px 'Kirang Haerang', cursive`;
+            ctx.fillStyle = color;
+            ctx.fillText(text, x, mainY);
+
+            ctx.restore();
+        }
+
+        watermarkConfirmBtn.addEventListener('click', () => {
+            watermarkModalOverlay.style.display = 'none';
             drawScene(true);
+            drawWatermark(selectedWatermarkPos, selectedWatermarkColor);
+            pendingExportDataUrl = canvas.toDataURL('image/png');
+            drawScene(false);
+
+            watermarkPreviewImg.src = pendingExportDataUrl;
+            watermarkPreviewOverlay.style.display = 'flex';
+        });
+
+        const watermarkPreviewOverlay = document.getElementById('watermarkPreviewOverlay');
+        const watermarkPreviewImg = document.getElementById('watermarkPreviewImg');
+        const watermarkPreviewBackBtn = document.getElementById('watermarkPreviewBackBtn');
+        const watermarkPreviewDownloadBtn = document.getElementById('watermarkPreviewDownloadBtn');
+        let pendingExportDataUrl = null;
+
+        watermarkPreviewBackBtn.addEventListener('click', () => {
+            watermarkPreviewOverlay.style.display = 'none';
+            watermarkModalOverlay.style.display = 'flex';
+        });
+
+        watermarkPreviewDownloadBtn.addEventListener('click', () => {
+            if (!pendingExportDataUrl) return;
             const link = document.createElement('a');
             link.download = `bracelet-design-${Date.now()}.png`;
-            link.href = canvas.toDataURL('image/png');
+            link.href = pendingExportDataUrl;
             link.click();
-            drawScene(false);
+            watermarkPreviewOverlay.style.display = 'none';
         });
 
         let draggingState = null;
