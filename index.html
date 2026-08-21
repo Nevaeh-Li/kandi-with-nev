@@ -1010,8 +1010,8 @@ Peace Love Unity Respect ❤ - Nev</p>
 
             <canvas id="stringCanvas" width="800" height="800"></canvas>
             <div id="beadContextMenu">
-                <button class="menu-copy" id="menuCopyBtn">📋 复制</button>
-                <button class="menu-delete" id="menuDeleteBtn">🗑️ 删除</button>
+                <button class="menu-copy" id="menuCopyBtn"><span id="txtMenuCopy">📋 复制</span></button>
+                <button class="menu-delete" id="menuDeleteBtn"><span id="txtMenuDelete">🗑️ 删除</span></button>
             </div>
 
             <div class="info-toast" id="infoToast">
@@ -1110,7 +1110,9 @@ Peace Love Unity Respect ❤ - Nev</p>
                 emptySlot: "空白存档",
                 defaultSlotName: "存档槽位 ",
                 confirmClear: "确认清空设计？",
-                inputPrompt: "输入字母/字符 (单字):"
+                inputPrompt: "输入字母/字符 (单字):",
+                menuCopy: "📋 复制",
+                menuDelete: "🗑️ 删除"
             },
             ENG: {
                 mainTitle: "KANDI WITH NEV",
@@ -1167,7 +1169,9 @@ Peace Love Unity Respect ❤ - Nev</p>
                 emptySlot: "Empty Save",
                 defaultSlotName: "Design ",
                 confirmClear: "Clear all?",
-                inputPrompt: "Enter letter/character (1 char):"
+                inputPrompt: "Enter letter/character (1 char):",
+                menuCopy: "📋 Duplicate",
+                menuDelete: "🗑️ Delete"
             }
         };
 
@@ -1229,6 +1233,9 @@ Peace Love Unity Respect ❤ - Nev</p>
             document.getElementById('lblToastHeader').textContent = t.toastHeader;
             document.getElementById('lblToast1').textContent = t.toast1;
             document.getElementById('lblToast2').textContent = t.toast2;
+
+            document.getElementById('txtMenuCopy').textContent = t.menuCopy;
+            document.getElementById('txtMenuDelete').textContent = t.menuDelete;
 
             updateSelectionUI();
             renderSlotsUI();
