@@ -1063,6 +1063,221 @@
             from { opacity: 0; transform: translateY(-5px); }
             to { opacity: 1; transform: translateY(0); }
         }
+    
+
+        /* =========================================================
+           MOBILE / RESPONSIVE ADAPTATION
+           Desktop layout remains unchanged above this breakpoint.
+           ========================================================= */
+        #mobileBackdrop, #mobileActionBar { display: none; }
+
+        @media (max-width: 800px) {
+            :root { --header-height: 62px; }
+
+            html, body {
+                width: 100%;
+                height: 100%;
+                height: 100dvh;
+                overflow: hidden;
+            }
+
+            header {
+                height: var(--header-height);
+                min-height: var(--header-height);
+                padding: 5px 12px;
+                box-sizing: border-box;
+                gap: 1px;
+            }
+
+            .main-header-title {
+                font-size: clamp(1.55rem, 7vw, 2.05rem);
+                letter-spacing: 1px;
+            }
+
+            .header-subtext {
+                font-size: 0.62rem;
+                max-width: 94vw;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            #main-container {
+                height: calc(100dvh - var(--header-height));
+                min-height: 0;
+                overflow: hidden;
+                display: block;
+                position: relative;
+            }
+
+            #workspace {
+                width: 100%;
+                height: 100%;
+                min-height: 0;
+                box-sizing: border-box;
+                padding: 8px 8px calc(66px + env(safe-area-inset-bottom));
+                overflow: hidden;
+                display: flex;
+            }
+
+            #workspace canvas#stringCanvas {
+                width: min(96vw, calc(100dvh - var(--header-height) - 84px));
+                height: min(96vw, calc(100dvh - var(--header-height) - 84px));
+                max-width: 100%;
+                max-height: 100%;
+                border-radius: 16px;
+                touch-action: none;
+            }
+
+            /* Desktop sidebar becomes a mobile bottom sheet. */
+            #sidebar {
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                top: auto;
+                width: 100%;
+                height: min(82dvh, 720px);
+                max-height: 82dvh;
+                padding: 14px 14px calc(76px + env(safe-area-inset-bottom));
+                border-radius: 20px 20px 0 0;
+                box-shadow: 0 -10px 35px rgba(0,0,0,0.18);
+                z-index: 910;
+                transform: translateY(105%);
+                transition: transform .25s ease;
+                overflow: hidden;
+            }
+
+            body.mobile-tools-open #sidebar { transform: translateY(0); }
+            #sidebar-resize-handle { display: none; }
+
+            .sidebar-scroll-area {
+                min-height: 0;
+                padding-right: 2px;
+                padding-bottom: 8px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .welcome-header { position: sticky; top: 0; background: var(--panel-bg); z-index: 3; padding-bottom: 8px; }
+            .welcome-title { font-size: 1.25rem; }
+            .welcome-desc { font-size: .76rem; }
+
+            /* Make controls comfortable for fingers. */
+            .bead-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; padding: 8px; }
+            .bead-item { min-height: 58px; padding: 8px 2px; }
+            .bead-item span { font-size: .66rem; }
+            .finish-item { min-height: 54px; justify-content: center; }
+            .toggle-option, button, .icon-btn-square { min-height: 38px; }
+            input[type="range"] { min-height: 30px; }
+
+            /* Floating panels stay out of the main drawing area on phones. */
+            #recentColorsFloat {
+                left: 8px;
+                right: 8px;
+                top: auto;
+                bottom: calc(62px + env(safe-area-inset-bottom));
+                width: auto;
+                max-width: none;
+                display: none;
+            }
+            body.mobile-tools-open #recentColorsFloat { display: block; }
+
+            #sidePlate {
+                left: auto;
+                right: 8px;
+                top: 74px;
+                width: 92px;
+                max-height: 28dvh;
+                padding: 8px 6px;
+                border-radius: 12px;
+            }
+            #sidePlateLabel { font-size: .62rem; margin-bottom: 6px; }
+            #sidePlateItems { gap: 5px; max-height: calc(28dvh - 48px); }
+
+            #beadContextMenu {
+                z-index: 950;
+                max-width: calc(100vw - 20px);
+            }
+            #beadContextMenu button { min-height: 42px; padding: 8px 12px; }
+
+            .save-widget-container {
+                top: 8px !important;
+                right: 8px !important;
+                left: auto !important;
+                z-index: 125;
+            }
+            .save-tab-btn { min-height: 40px; padding: 7px 10px; }
+            .save-tab-btn span { display: none; }
+
+            #mobileBackdrop {
+                display: block;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,.28);
+                z-index: 900;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity .2s ease;
+            }
+            body.mobile-tools-open #mobileBackdrop { opacity: 1; pointer-events: auto; }
+
+            #mobileActionBar {
+                position: fixed;
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 7px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                padding: 7px 8px calc(7px + env(safe-area-inset-bottom));
+                background: rgba(255,255,255,.96);
+                border-top: 1px solid #ddd;
+                box-shadow: 0 -4px 18px rgba(0,0,0,.10);
+                z-index: 1000;
+                box-sizing: border-box;
+                backdrop-filter: blur(10px);
+            }
+
+            #mobileActionBar button {
+                border: 1px solid #e2e2e2;
+                background: #fff;
+                color: #333;
+                border-radius: 11px;
+                min-height: 48px;
+                font-size: .7rem;
+                font-weight: 700;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 2px;
+                touch-action: manipulation;
+            }
+            #mobileActionBar button:active { transform: scale(.97); }
+            #mobileActionBar .mobile-primary { background: #eaf3ff; border-color: #91d5ff; color: #1677ff; }
+            #mobileActionBar .mobile-export { background: #f6ffed; border-color: #b7eb8f; color: #389e0d; }
+            .mobile-action-icon { font-size: 1.15rem; line-height: 1; }
+
+            body.mobile-tools-open #mobileActionBar { z-index: 920; }
+
+            /* Give modal dialogs a phone-friendly footprint. */
+            #watermarkModal, #watermarkPreviewModal, #unsavedLoadModal {
+                width: calc(100vw - 24px) !important;
+                max-width: 520px !important;
+                max-height: calc(100dvh - 24px);
+                overflow-y: auto;
+            }
+        }
+
+        @media (max-width: 420px) {
+            #workspace canvas#stringCanvas {
+                width: min(94vw, calc(100dvh - var(--header-height) - 86px));
+                height: min(94vw, calc(100dvh - var(--header-height) - 86px));
+            }
+            .bead-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+            .welcome-desc { font-size: .72rem; }
+        }
+
     </style>
 </head>
 <body>
@@ -3998,6 +4213,74 @@ Peace Love Unity Respect ❤ - Nev</p>
             window.addEventListener('pointermove', onMove);
             window.addEventListener('pointerup', onUp);
         });
-    </script>
+    
+
+        /* Mobile controls: the existing desktop controls remain intact. */
+        (function initResponsiveMobileUI() {
+            const backdrop = document.createElement('div');
+            backdrop.id = 'mobileBackdrop';
+            document.body.appendChild(backdrop);
+
+            const bar = document.createElement('div');
+            bar.id = 'mobileActionBar';
+            bar.innerHTML = `
+                <button type="button" id="mobileToolsBtn" class="mobile-primary">
+                    <span class="mobile-action-icon">☰</span><span id="mobileToolsTxt">工具</span>
+                </button>
+                <button type="button" id="mobileUndoBtn">
+                    <span class="mobile-action-icon">↶</span><span id="mobileUndoTxt">撤回</span>
+                </button>
+                <button type="button" id="mobileSaveBtn">
+                    <span class="mobile-action-icon">💾</span><span id="mobileSaveTxt">保存</span>
+                </button>
+                <button type="button" id="mobileExportBtn" class="mobile-export">
+                    <span class="mobile-action-icon">↓</span><span id="mobileExportTxt">导出</span>
+                </button>`;
+            document.body.appendChild(bar);
+
+            const setToolsOpen = (open) => {
+                document.body.classList.toggle('mobile-tools-open', !!open);
+            };
+
+            document.getElementById('mobileToolsBtn').addEventListener('click', () => {
+                setToolsOpen(!document.body.classList.contains('mobile-tools-open'));
+            });
+            backdrop.addEventListener('pointerdown', () => setToolsOpen(false));
+
+            document.getElementById('mobileUndoBtn').addEventListener('click', () => {
+                if (typeof undo === 'function') undo();
+            });
+
+            document.getElementById('mobileSaveBtn').addEventListener('click', () => {
+                const saveBtn = document.getElementById('saveTabBtn');
+                if (saveBtn) saveBtn.click();
+            });
+
+            document.getElementById('mobileExportBtn').addEventListener('click', () => {
+                const exportBtn = document.getElementById('exportBtn');
+                if (exportBtn) exportBtn.click();
+            });
+
+            const updateMobileLabels = () => {
+                const zh = (typeof currentLang !== 'undefined' && currentLang === 'ZH');
+                document.getElementById('mobileToolsTxt').textContent = zh ? '工具' : 'Tools';
+                document.getElementById('mobileUndoTxt').textContent = zh ? '撤回' : 'Undo';
+                document.getElementById('mobileSaveTxt').textContent = zh ? '保存' : 'Save';
+                document.getElementById('mobileExportTxt').textContent = zh ? '导出' : 'Export';
+            };
+            document.getElementById('langZH')?.addEventListener('click', updateMobileLabels);
+            document.getElementById('langENG')?.addEventListener('click', updateMobileLabels);
+            updateMobileLabels();
+
+            // Prevent the browser from interpreting long-presses as text selection
+            // while using the mobile action bar.
+            bar.addEventListener('contextmenu', e => e.preventDefault());
+
+            // Escape closes the mobile sheet when a hardware keyboard is present.
+            window.addEventListener('keydown', e => {
+                if (e.key === 'Escape') setToolsOpen(false);
+            });
+        })();
+</script>
 </body>
 </html>
